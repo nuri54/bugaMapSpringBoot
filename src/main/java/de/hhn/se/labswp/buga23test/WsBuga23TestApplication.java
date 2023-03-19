@@ -14,26 +14,4 @@ public class WsBuga23TestApplication {
     SpringApplication.run(WsBuga23TestApplication.class, args);
   }
 
-  @Bean
-  public CommandLineRunner run(UserRepository reportRepository){
-    return (args -> {
-      insert(reportRepository);
-      System.out.println(reportRepository.findAll());
-    });
-  }
-
-
-  private void insert(UserRepository reportRepository){
-    User user = new User();
-    user.setAge(14);
-    user.setDiscriminator("wuff");
-    user.setFirstname("miau");
-    user.setLastname("wau");
-    user.setLongitude(4.20);
-    user.setLatitude(6.9);
-    user.setEMailAdress("tesssstt");
-
-    reportRepository.save(user);
-  }
-
 }
