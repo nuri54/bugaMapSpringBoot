@@ -1,5 +1,6 @@
 package de.hhn.se.labswp.buga23test;
 
+import de.hhn.se.labswp.buga23test.crudRepos.UserRepository;
 import de.hhn.se.labswp.buga23test.jpa.User;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,12 +26,12 @@ public class WsBuga23TestApplication {
   private void insert(UserRepository reportRepository){
     User user = new User();
     user.setAge(14);
-    user.setDiscriminator("test");
-    user.setFirstname("Nuri");
-    user.setLastname("hi");
-    user.setLongitude(5.42);
-    user.setLatitude(2.31);
-    user.setEMailAdress("test");
+    user.setDiscriminator("wuff");
+    user.setFirstname("miau");
+    user.setLastname("wau");
+    user.setLongitude(4.20);
+    user.setLatitude(6.9);
+    user.setEMailAdress("tesssstt");
 
     reportRepository.save(user);
   }
