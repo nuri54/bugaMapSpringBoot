@@ -19,7 +19,7 @@ public class Bugapoint {
   @Column(name = "ID", nullable = false)
   private Integer id;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(optional = false)
   @JoinColumn(name = "AdminID", nullable = false)
   private User adminID;
 
