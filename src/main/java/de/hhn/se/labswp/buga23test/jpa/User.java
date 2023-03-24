@@ -17,12 +17,6 @@ public class User {
   @Column(name = "ID", nullable = false)
   private Integer id;
 
-  @Column(name = "Longitude", nullable = false)
-  private Double longitude;
-
-  @Column(name = "Latitude", nullable = false)
-  private Double latitude;
-
   @Column(name = "Firstname")
   private String firstname;
 
@@ -47,22 +41,6 @@ public class User {
 
   public void setId(Integer id) {
     this.id = id;
-  }
-
-  public Double getLongitude() {
-    return longitude;
-  }
-
-  public void setLongitude(Double longitude) {
-    this.longitude = longitude;
-  }
-
-  public Double getLatitude() {
-    return latitude;
-  }
-
-  public void setLatitude(Double latitude) {
-    this.latitude = latitude;
   }
 
   public String getFirstname() {
