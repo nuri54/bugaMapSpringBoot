@@ -2,8 +2,6 @@ package de.hhn.se.labswp.buga23test.jpa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -12,7 +10,6 @@ import jakarta.persistence.Table;
 public class Ticket {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID", nullable = false)
   private Integer id;
 

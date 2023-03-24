@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "user")
@@ -16,23 +17,17 @@ public class User {
   @Column(name = "ID", nullable = false)
   private Integer id;
 
-  @Column(name = "Longitude", nullable = false)
-  private Double longitude;
-
-  @Column(name = "Latitude", nullable = false)
-  private Double latitude;
-
   @Column(name = "Firstname")
   private String firstname;
 
   @Column(name = "Lastname")
   private String lastname;
 
-  @Column(name = "Age")
-  private Integer age;
+  @Column(name = "Birthday")
+  private LocalDate birthday;
 
   @Column(name = "Emailadress")
-  private String eMailAdress;
+  private String emailadress;
 
   @Column(name = "Password")
   private String password;
@@ -46,22 +41,6 @@ public class User {
 
   public void setId(Integer id) {
     this.id = id;
-  }
-
-  public Double getLongitude() {
-    return longitude;
-  }
-
-  public void setLongitude(Double longitude) {
-    this.longitude = longitude;
-  }
-
-  public Double getLatitude() {
-    return latitude;
-  }
-
-  public void setLatitude(Double latitude) {
-    this.latitude = latitude;
   }
 
   public String getFirstname() {
@@ -80,20 +59,20 @@ public class User {
     this.lastname = lastname;
   }
 
-  public Integer getAge() {
-    return age;
+  public LocalDate getBirthday() {
+    return birthday;
   }
 
-  public void setAge(Integer age) {
-    this.age = age;
+  public void setBirthday(LocalDate birthday) {
+    this.birthday = birthday;
   }
 
-  public String getEMailAdress() {
-    return eMailAdress;
+  public String getEmailadress() {
+    return emailadress;
   }
 
-  public void setEMailAdress(String eMailAdress) {
-    this.eMailAdress = eMailAdress;
+  public void setEmailadress(String emailadress) {
+    this.emailadress = emailadress;
   }
 
   public String getPassword() {

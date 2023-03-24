@@ -2,8 +2,6 @@ package de.hhn.se.labswp.buga23test.jpa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.Instant;
@@ -13,7 +11,6 @@ import java.time.Instant;
 public class Route {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID", nullable = false)
   private Integer id;
 
