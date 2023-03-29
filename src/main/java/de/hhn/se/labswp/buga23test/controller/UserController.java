@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -24,9 +25,21 @@ public class UserController {
     return (List<User>) userRepository.findAll();
   }
 
+  @GetMapping("/admins")
+  public List<User> getAdmins() {
+    return userRepository.findByDiscriminatorLikeIgnoreCase("Admin");
+  }
+
+  @GetMapping("/usersByType")
+  public List<User> getUsersByType(@RequestParam String type) {
+    return userRepository.findByDiscriminatorLikeIgnoreCase(type);
+  }
+
   @PostMapping("/users")
-  void addUser(@RequestBody User user) {
+  public void addUser(@RequestBody User user) {
     userRepository.save(user);
   }
+
+
 
 }
