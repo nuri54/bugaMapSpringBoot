@@ -1,7 +1,7 @@
-package de.hhn.se.labswp.buga23test.controller;
+package de.hhn.se.labswp.bugaMap.controller;
 
-import de.hhn.se.labswp.buga23test.crudRepos.UserRepository;
-import de.hhn.se.labswp.buga23test.jpa.User;
+import de.hhn.se.labswp.bugaMap.crudRepos.UserRepository;
+import de.hhn.se.labswp.bugaMap.jpa.User;
 import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

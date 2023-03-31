@@ -1,4 +1,4 @@
-package de.hhn.se.labswp.buga23test;
+package de.hhn.se.labswp.bugaMap;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package de.hhn.se.labswp.buga23test;
+package de.hhn.se.labswp.bugaMap;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

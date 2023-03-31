@@ -1,4 +1,4 @@
-package de.hhn.se.labswp.buga23test.jpa;
+package de.hhn.se.labswp.bugaMap.jpa;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

@@ -1,6 +1,6 @@
-package de.hhn.se.labswp.buga23test.crudRepos;
+package de.hhn.se.labswp.bugaMap.crudRepos;
 
-import de.hhn.se.labswp.buga23test.jpa.RouteBugapoint;
+import de.hhn.se.labswp.bugaMap.jpa.RouteBugapoint;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
