@@ -1,9 +1,9 @@
 package de.hhn.se.labswp.bugaMap.controller;
 
+import de.hhn.se.labswp.bugaMap.crudRepos.AdminRepository;
 import de.hhn.se.labswp.bugaMap.crudRepos.BugapointRepository;
-import de.hhn.se.labswp.bugaMap.crudRepos.UserRepository;
+import de.hhn.se.labswp.bugaMap.jpa.Admin;
 import de.hhn.se.labswp.bugaMap.jpa.Bugapoint;
-import de.hhn.se.labswp.bugaMap.jpa.User;
 import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +17,12 @@ public class BugapointController {
 
   private final BugapointRepository bugapointRepository;
 
-  private final UserRepository userRepository;
+  private final AdminRepository adminRepository;
 
   public BugapointController(BugapointRepository bugapointRepository,
-      UserRepository userRepository) {
+      AdminRepository adminRepository) {
     this.bugapointRepository = bugapointRepository;
-    this.userRepository = userRepository;
+    this.adminRepository = adminRepository;
   }
 
   @GetMapping("/bugapoints")
@@ -42,8 +42,8 @@ public class BugapointController {
     bugapoint.setDiscriminator(type);
 
     //Demo
-    Iterable<User> users = userRepository.findAll();
-    bugapoint.setAdminID(users.iterator().next());
+    Iterable<Admin> admins = adminRepository.findAll();
+    bugapoint.setAdminID(admins.iterator().next().getId());
     
     bugapointRepository.save(bugapoint);
   }

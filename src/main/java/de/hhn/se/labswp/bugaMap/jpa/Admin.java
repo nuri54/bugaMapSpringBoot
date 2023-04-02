@@ -2,18 +2,15 @@ package de.hhn.se.labswp.bugaMap.jpa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "admin")
+public class Admin {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID", nullable = false)
   private Integer id;
 
@@ -23,7 +20,7 @@ public class User {
   @Column(name = "Lastname")
   private String lastname;
 
-  @Column(name = "Birthday")
+  @Column(name = "Birthday", nullable = false)
   private LocalDate birthday;
 
   @Column(name = "Emailadress")
@@ -31,9 +28,6 @@ public class User {
 
   @Column(name = "Password")
   private String password;
-
-  @Column(name = "Discriminator", nullable = false)
-  private String discriminator;
 
   public Integer getId() {
     return id;
@@ -81,14 +75,6 @@ public class User {
 
   public void setPassword(String password) {
     this.password = password;
-  }
-
-  public String getDiscriminator() {
-    return discriminator;
-  }
-
-  public void setDiscriminator(String discriminator) {
-    this.discriminator = discriminator;
   }
 
 }

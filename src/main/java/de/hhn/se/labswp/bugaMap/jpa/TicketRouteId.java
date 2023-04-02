@@ -9,7 +9,7 @@ import org.hibernate.Hibernate;
 @Embeddable
 public class TicketRouteId implements Serializable {
 
-  private static final long serialVersionUID = -2579757955815761479L;
+  private static final long serialVersionUID = 8712540516505315094L;
   @Column(name = "TicketID", nullable = false)
   private Integer ticketID;
 
