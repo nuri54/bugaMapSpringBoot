@@ -1,7 +1,4 @@
-# buga23testdb
-## Testprojekt um auf lokale Datenbank zuzugreifen
-
-
-Test um auf Datenbank mit Spring JPA zuzugreifen.
+# bugaMap Spring Boot Server
+### Repository Gruppe G
 
 Spring Tutorial: [Link](https://spring.io/guides/gs/accessing-data-mysql/)
