@@ -4,7 +4,13 @@ import de.hhn.se.labswp.bugaMap.crudRepos.AdminRepository;
 import de.hhn.se.labswp.bugaMap.crudRepos.BugapointRepository;
 import de.hhn.se.labswp.bugaMap.jpa.Admin;
 import de.hhn.se.labswp.bugaMap.jpa.Bugapoint;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,5 +52,27 @@ public class BugapointController {
     bugapoint.setAdminID(admins.iterator().next().getId());
     
     bugapointRepository.save(bugapoint);
+  }
+  @GetMapping("/getDiscriminators")
+  public List<String> getDiscriminators() {
+    Set discriminators = new HashSet();
+    for (Bugapoint bugapoint: bugapointRepository.findAll()) {
+      discriminators.add(bugapoint.getDiscriminator());
+    }
+    return discriminators.stream().toList();
+  }
+
+  @GetMapping("/filterBugapoints")
+  public List<Bugapoint> filterBugapoints(@RequestParam("discriminators") Set<String> selectedDiscriminators) {
+    List<Bugapoint> filteredBugapoints;
+    if (selectedDiscriminators.isEmpty()) {
+      filteredBugapoints = StreamSupport.stream(bugapointRepository.findAll().spliterator(), false)
+              .collect(Collectors.toList());
+    } else {
+      filteredBugapoints = StreamSupport.stream(bugapointRepository.findAll().spliterator(), false)
+              .filter(bugapoint -> selectedDiscriminators.contains(bugapoint.getDiscriminator()))
+              .collect(Collectors.toList());
+    }
+    return filteredBugapoints;
   }
 }
