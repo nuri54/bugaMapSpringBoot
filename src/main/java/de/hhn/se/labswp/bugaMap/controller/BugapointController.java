@@ -4,12 +4,8 @@ import de.hhn.se.labswp.bugaMap.crudRepos.AdminRepository;
 import de.hhn.se.labswp.bugaMap.crudRepos.BugapointRepository;
 import de.hhn.se.labswp.bugaMap.jpa.Admin;
 import de.hhn.se.labswp.bugaMap.jpa.Bugapoint;
-
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,15 +30,17 @@ public class BugapointController {
     this.jdbcTemplate = jdbcTemplate;
   }
 
+
   /**
    * Simple request to get all points in the database.
    *
-   * @return
+   * @return bugapoints
    */
   @GetMapping("/bugapoints")
   public List<Bugapoint> getBugapoints() {
     return (List<Bugapoint>) bugapointRepository.findAll();
   }
+
 
   /**
    * Adds a point to the database.
@@ -78,21 +76,18 @@ public class BugapointController {
    */
   @GetMapping("/getDiscriminators")
   public List<String> getDiscriminators() {
-    List<String> distinctDiscriminators = jdbcTemplate.queryForList("SELECT DISTINCT discriminator FROM bugapoint", String.class);
-    return distinctDiscriminators;
+    return jdbcTemplate.queryForList("SELECT DISTINCT discriminator FROM bugapoint", String.class);
   }
 
+
+  /**
+   * Gets all the buga points with the given discriminators.
+   *
+   * @param discriminators discriminators
+   * @return all buga points with the matching discriminator
+   */
   @GetMapping("/filterBugapoints")
-  public List<Bugapoint> filterBugapoints(@RequestParam("discriminators") Set<String> selectedDiscriminators) {
-    List<Bugapoint> filteredBugapoints;
-    if (selectedDiscriminators.isEmpty()) {
-      filteredBugapoints = StreamSupport.stream(bugapointRepository.findAll().spliterator(), false)
-              .collect(Collectors.toList());
-    } else {
-      filteredBugapoints = StreamSupport.stream(bugapointRepository.findAll().spliterator(), false)
-              .filter(bugapoint -> selectedDiscriminators.contains(bugapoint.getDiscriminator()))
-              .collect(Collectors.toList());
-    }
-    return filteredBugapoints;
+  public List<Bugapoint> filterBugapoints(@RequestParam("discriminators") Set<String> discriminators) {
+    return jdbcTemplate.queryForList("SELECT * FROM bugapoints WHERE discriminator IN (:discriminators)", Bugapoint.class);
   }
 }
