@@ -5,12 +5,12 @@ import de.hhn.se.labswp.bugaMap.crudRepos.BugapointRepository;
 import de.hhn.se.labswp.bugaMap.jpa.Admin;
 import de.hhn.se.labswp.bugaMap.jpa.Bugapoint;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,17 +25,33 @@ public class BugapointController {
 
   private final AdminRepository adminRepository;
 
+  private final JdbcTemplate jdbcTemplate;
+
   public BugapointController(BugapointRepository bugapointRepository,
-      AdminRepository adminRepository) {
+      AdminRepository adminRepository, JdbcTemplate jdbcTemplate) {
     this.bugapointRepository = bugapointRepository;
     this.adminRepository = adminRepository;
+    this.jdbcTemplate = jdbcTemplate;
   }
 
+  /**
+   * Simple request to get all points in the database.
+   *
+   * @return
+   */
   @GetMapping("/bugapoints")
   public List<Bugapoint> getBugapoints() {
     return (List<Bugapoint>) bugapointRepository.findAll();
   }
 
+  /**
+   * Adds a point to the database.
+   *
+   * @param title Title
+   * @param latitude lat
+   * @param longitude long
+   * @param type discriminator
+   */
   @PostMapping("/addBugapoint")
   public void addBugapoint(@RequestParam String title, @RequestParam double latitude,
       @RequestParam double longitude, @RequestParam String type) {
@@ -53,13 +69,17 @@ public class BugapointController {
     
     bugapointRepository.save(bugapoint);
   }
+
+
+  /**
+   * Simple request to get all the different types of the buga points.
+   *
+   * @return distinct discriminators
+   */
   @GetMapping("/getDiscriminators")
   public List<String> getDiscriminators() {
-    Set discriminators = new HashSet();
-    for (Bugapoint bugapoint: bugapointRepository.findAll()) {
-      discriminators.add(bugapoint.getDiscriminator());
-    }
-    return discriminators.stream().toList();
+    List<String> distinctDiscriminators = jdbcTemplate.queryForList("SELECT DISTINCT discriminator FROM bugapoint", String.class);
+    return distinctDiscriminators;
   }
 
   @GetMapping("/filterBugapoints")
