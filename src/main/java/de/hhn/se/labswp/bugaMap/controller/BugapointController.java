@@ -43,7 +43,7 @@ public class BugapointController {
 
     //Demo
     Iterable<Admin> users = adminRepository.findAll();
-    bugapoint.setAdminID(users.iterator().next());
+    bugapoint.setAdminID(users.iterator().next().getId());
     
     bugapointRepository.save(bugapoint);
   }
