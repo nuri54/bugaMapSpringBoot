@@ -1,6 +1,6 @@
 package de.hhn.se.labswp.bugaMap.security;
 
-import de.hhn.se.labswp.bugaMap.crudRepos.UserRepository;
+import de.hhn.se.labswp.bugaMap.crudRepos.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-  private final UserRepository repository;
+  private final AdminRepository repository;
 
   @Bean
   public UserDetailsService userDetailsService(){

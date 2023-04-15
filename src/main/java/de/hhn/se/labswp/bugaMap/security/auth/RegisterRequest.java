@@ -1,5 +1,6 @@
 package de.hhn.se.labswp.bugaMap.security.auth;
 
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,15 +11,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
-
   private String firstname;
 
   private String lastname;
 
   private String email;
 
-  private String discriminator;
-
   private String password;
+
+
 
 }

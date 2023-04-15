@@ -20,8 +20,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user")
-public class User implements UserDetails {
+@Table(name = "admin")
+public class Admin implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,17 +34,13 @@ public class User implements UserDetails {
   @Column(name = "Lastname")
   private String lastname;
 
-  @Column(name = "Birthday")
-  private LocalDate birthday;
+
 
   @Column(name = "Emailadress")
   private String emailadress;
 
   @Column(name = "Password")
   private String password;
-
-  @Column(name = "Discriminator", nullable = false)
-  private String discriminator;
 
   public Integer getId() {
     return id;
@@ -68,14 +64,6 @@ public class User implements UserDetails {
 
   public void setLastname(String lastname) {
     this.lastname = lastname;
-  }
-
-  public LocalDate getBirthday() {
-    return birthday;
-  }
-
-  public void setBirthday(LocalDate birthday) {
-    this.birthday = birthday;
   }
 
   public String getEmailadress() {
@@ -128,12 +116,6 @@ public class User implements UserDetails {
     this.password = password;
   }
 
-  public String getDiscriminator() {
-    return discriminator;
-  }
 
-  public void setDiscriminator(String discriminator) {
-    this.discriminator = discriminator;
-  }
 
 }

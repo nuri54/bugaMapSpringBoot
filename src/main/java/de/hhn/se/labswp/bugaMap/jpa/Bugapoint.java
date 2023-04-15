@@ -21,7 +21,7 @@ public class Bugapoint {
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "AdminID", nullable = false)
-  private User adminID;
+  private Admin adminID;
 
   @Column(name = "Title", nullable = false)
   private String title;
@@ -43,11 +43,11 @@ public class Bugapoint {
     this.id = id;
   }
 
-  public User getAdminID() {
+  public Admin getAdminID() {
     return adminID;
   }
 
-  public void setAdminID(User adminID) {
+  public void setAdminID(Admin adminID) {
     this.adminID = adminID;
   }
 
