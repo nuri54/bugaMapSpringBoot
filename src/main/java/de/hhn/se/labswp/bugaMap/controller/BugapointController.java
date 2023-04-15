@@ -4,13 +4,10 @@ import de.hhn.se.labswp.bugaMap.crudRepos.AdminRepository;
 import de.hhn.se.labswp.bugaMap.crudRepos.BugapointRepository;
 import de.hhn.se.labswp.bugaMap.jpa.Admin;
 import de.hhn.se.labswp.bugaMap.jpa.Bugapoint;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -92,23 +89,12 @@ public class BugapointController {
    */
   @GetMapping("/filterBugapoints")
   public List<Bugapoint> filterBugapoints(@RequestParam("discriminators") List<String> discriminators) {
-    StringBuilder temp = new StringBuilder();
-
-    for (String s :
-        discriminators) {
-      temp.append("'").append(s).append("', ");
-      System.out.println(s);
-    }
-    if (temp.toString().endsWith(", ")) {
-      temp = new StringBuilder(temp.substring(0, temp.length() - 2));
-    }
-
-    temp = new StringBuilder(temp.toString().replace("&", "', '"));
-    temp = new StringBuilder("(" + temp + ")");
-
-    String sql = "SELECT * FROM bugapoint WHERE Discriminator IN " + temp;
-
-
-    return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Bugapoint.class), discriminators.toArray());
+    String sql = "SELECT * FROM bugapoint WHERE Discriminator IN (" +
+        String.join(",", Collections.nCopies(discriminators.size(), "?")) + ")";
+    return jdbcTemplate.query(sql, discriminators.toArray(),
+        new BeanPropertyRowMapper<>(Bugapoint.class));
   }
+
+
+
 }
