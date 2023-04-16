@@ -88,7 +88,12 @@ public class BugapointController {
    * @return all buga points with the matching discriminator
    */
   @GetMapping("/filterBugapoints")
-  public List<Bugapoint> filterBugapoints(@RequestParam("discriminators") List<String> discriminators) {
+  public List<Bugapoint> filterBugapoints(@RequestParam(value = "discriminators", required = false) List<String> discriminators) {
+
+    if (discriminators == null || discriminators.isEmpty()) {
+      return (List<Bugapoint>) bugapointRepository.findAll();
+    }
+
     String sql = "SELECT * FROM bugapoint WHERE Discriminator IN (" +
         String.join(",", Collections.nCopies(discriminators.size(), "?")) + ")";
     return jdbcTemplate.query(sql, discriminators.toArray(),
