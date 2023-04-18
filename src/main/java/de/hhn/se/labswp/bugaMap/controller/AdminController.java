@@ -2,15 +2,14 @@ package de.hhn.se.labswp.bugaMap.controller;
 
 import de.hhn.se.labswp.bugaMap.crudRepos.AdminRepository;
 import de.hhn.se.labswp.bugaMap.jpa.Admin;
-import de.hhn.se.labswp.bugaMap.responses.StandardResponse;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
@@ -41,14 +40,15 @@ public class AdminController {
    * POST Request to save one admin.
    *
    * @param admin Admin which will be put into the database.
+   * @return
    */
-  @PostMapping("/add")
-  public ResponseEntity<StandardResponse> addAdmin(@RequestBody Admin admin) {
+  @PostMapping(value = "/add")
+  public ResponseEntity<String> addAdmin(@RequestBody Admin admin) {
     try {
       adminRepository.save(admin);
-      return ResponseEntity.ok(new StandardResponse(true, "Admin saved"));
+      return ResponseEntity.ok("Admin saved");
     } catch (Exception e) {
-      return ResponseEntity.status(new StandardResponse(false, "Request failed"));
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving admin");
     }
   }
 
