@@ -23,15 +23,12 @@ public class Report {
   @JoinColumn(name = "BugaPointID", nullable = false)
   private Bugapoint bugaPointID;
 
-  @Column(name = "AdminID", nullable = false)
-  private Integer adminID;
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "AdminID", nullable = false)
+  private Admin adminID;
 
   @Column(name = "ReportText", length = 1000)
   private String reportText;
-
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "AdminID2", nullable = false)
-  private Admin adminID2;
 
   public Integer getId() {
     return id;
@@ -49,11 +46,11 @@ public class Report {
     this.bugaPointID = bugaPointID;
   }
 
-  public Integer getAdminID() {
+  public Admin getAdminID() {
     return adminID;
   }
 
-  public void setAdminID(Integer adminID) {
+  public void setAdminID(Admin adminID) {
     this.adminID = adminID;
   }
 
@@ -63,14 +60,6 @@ public class Report {
 
   public void setReportText(String reportText) {
     this.reportText = reportText;
-  }
-
-  public Admin getAdminID2() {
-    return adminID2;
-  }
-
-  public void setAdminID2(Admin adminID2) {
-    this.adminID2 = adminID2;
   }
 
 }
