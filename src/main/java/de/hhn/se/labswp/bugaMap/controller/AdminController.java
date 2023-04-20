@@ -51,8 +51,8 @@ public class AdminController {
    * @param admin Admin which will be put into the database.
    * @return response if saving to the database was successful or not.
    */
-  @PostMapping(value = "/add")
-  public ResponseEntity<DatabaseSaveResponse> addAdmin(@RequestBody Admin admin) {
+  @PostMapping(value = "/save")
+  public ResponseEntity<DatabaseSaveResponse> add(@RequestBody Admin admin) {
     try {
       adminRepository.save(admin);
       return ResponseEntity.ok(new DatabaseSaveResponse(true, "Admin saved"));
