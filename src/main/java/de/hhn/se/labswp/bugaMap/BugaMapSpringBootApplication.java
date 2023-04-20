@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WsBuga23TestApplication {
+public class BugaMapSpringBootApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(WsBuga23TestApplication.class, args);
+    SpringApplication.run(BugaMapSpringBootApplication.class, args);
   }
 
 }
