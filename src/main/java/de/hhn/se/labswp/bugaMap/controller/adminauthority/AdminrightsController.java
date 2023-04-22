@@ -1,4 +1,4 @@
-package de.hhn.se.labswp.bugaMap.controller;
+package de.hhn.se.labswp.bugaMap.controller.adminauthority;
 
 import de.hhn.se.labswp.bugaMap.crudRepos.AdminRepository;
 import de.hhn.se.labswp.bugaMap.jpa.Admin;

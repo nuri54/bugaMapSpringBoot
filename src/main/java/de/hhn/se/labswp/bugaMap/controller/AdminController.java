@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
+/**
+ * Mappings for Admin table.
+ */
 @RestController()
 @RequestMapping("/admin")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -80,6 +84,12 @@ public class AdminController {
   }
 
 
+  /**
+   * Returns the admin with given id.
+   *
+   * @param id ID of the admin
+   * @return admin
+   */
   @GetMapping(value = "id/{id}")
   public Admin getById(@PathVariable int id) {
     String sql = "SELECT * FROM admin WHERE id = ?";

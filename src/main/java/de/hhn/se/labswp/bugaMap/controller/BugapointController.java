@@ -1,6 +1,5 @@
 package de.hhn.se.labswp.bugaMap.controller;
 
-import de.hhn.se.labswp.bugaMap.crudRepos.AdminRepository;
 import de.hhn.se.labswp.bugaMap.crudRepos.BugapointRepository;
 import de.hhn.se.labswp.bugaMap.jpa.Bugapoint;
 import de.hhn.se.labswp.bugaMap.responses.DatabaseSaveResponse;
@@ -18,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
+/**
+ * Mappings for Bugapoint table.
+ */
 @RestController
 @RequestMapping("/bugapoint")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -36,14 +39,19 @@ public class BugapointController {
   /**
    * Simple request to get all points in the database.
    *
-   * @return bugapoints
+   * @return bugapoints all bugapoints
    */
   @GetMapping("/list")
   public List<Bugapoint> getBugapoints() {
     return (List<Bugapoint>) bugapointRepository.findAll();
   }
 
-
+  /**
+   * Returns all bugapoints with the matching discriminators.
+   *
+   * @param discriminators discriminators
+   * @return filtered bugapoints
+   */
   @GetMapping("/list/filter")
   public List<Bugapoint> getBugapoints(@RequestParam(value = "discriminators", required = false)
   List<String> discriminators) {
@@ -59,7 +67,7 @@ public class BugapointController {
   }
 
   /**
-   * Adds a point to the database.
+   * Adds the given bugapoint to the database.
    */
   @PostMapping("/save")
   public ResponseEntity<DatabaseSaveResponse> add(@RequestBody Bugapoint bugapoint) {
