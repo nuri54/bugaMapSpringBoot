@@ -3,24 +3,28 @@ package de.hhn.se.labswp.bugaMap.jpa;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "bugapoint")
 public class Bugapoint {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID", nullable = false)
   private Integer id;
 
-  @Column(name = "AdminID", nullable = false)
-  private Integer adminID;
+  @JoinColumn(name = "ParkID", nullable = false)
+  private int parkID;
+
+  @JoinColumn(name = "AdminID", nullable = false)
+  private int adminID;
 
   @Column(name = "Title", nullable = false)
   private String title;
@@ -34,52 +38,7 @@ public class Bugapoint {
   @Column(name = "Discriminator", nullable = false)
   private String discriminator;
 
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public Integer getAdminID() {
-    return adminID;
-  }
-
-  public void setAdminID(Integer adminID) {
-    this.adminID = adminID;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public Double getLongitude() {
-    return longitude;
-  }
-
-  public void setLongitude(Double longitude) {
-    this.longitude = longitude;
-  }
-
-  public Double getLatitude() {
-    return latitude;
-  }
-
-  public void setLatitude(Double latitude) {
-    this.latitude = latitude;
-  }
-
-  public String getDiscriminator() {
-    return discriminator;
-  }
-
-  public void setDiscriminator(String discriminator) {
-    this.discriminator = discriminator;
-  }
+  @Column(name = "Description", length = 4095)
+  private String description;
 
 }

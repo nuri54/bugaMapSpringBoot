@@ -5,7 +5,6 @@ import de.hhn.se.labswp.bugaMap.jpa.Admin;
 import de.hhn.se.labswp.bugaMap.responses.DatabaseSaveResponse;
 import java.util.List;
 import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;

@@ -27,8 +27,7 @@ public class BugapointController {
 
   private final JdbcTemplate jdbcTemplate;
 
-  public BugapointController(BugapointRepository bugapointRepository,
-      AdminRepository adminRepository, JdbcTemplate jdbcTemplate) {
+  public BugapointController(BugapointRepository bugapointRepository, JdbcTemplate jdbcTemplate) {
     this.bugapointRepository = bugapointRepository;
     this.jdbcTemplate = jdbcTemplate;
   }
