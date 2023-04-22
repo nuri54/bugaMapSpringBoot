@@ -50,4 +50,8 @@ public class AuthenticationService {
         .token(jwtToken)
         .build();
   }
+
+  public boolean checkToken(CheckTokenRequest request){
+    return jwtService.isTokenValid(request.getToken());
+  }
 }

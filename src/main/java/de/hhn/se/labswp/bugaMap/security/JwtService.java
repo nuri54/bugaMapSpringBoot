@@ -1,6 +1,7 @@
 package de.hhn.se.labswp.bugaMap.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -65,6 +66,17 @@ public class JwtService {
   private Date extractExpiration(String token) {
     return extractClaim(token,Claims::getExpiration);
   }
+
+  public boolean isTokenValid(String token) {
+    try {
+      Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
+      return true;
+    } catch (JwtException e) {
+      logger.error("Invalid JWT token: {}", e.getMessage());
+      return false;
+    }
+  }
+
 
 
 }
