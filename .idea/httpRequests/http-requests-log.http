@@ -1,0 +1,462 @@
+GET http://localhost:8080/park/id/2
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-23T002853.200.json
+
+###
+
+GET http://localhost:8080/park/id/1
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-23T002844.200.json
+
+###
+
+GET http://localhost:8080/park/list
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-23T002504.200.json
+
+###
+
+GET http://localhost:8080/bugapoint/discriminators
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-22T235939.200.json
+
+###
+
+GET http://localhost:8080/bugapoint/list
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-22T235255.200.json
+
+###
+
+GET http://localhost:8080/admin/list
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-22T235247.200.json
+
+###
+
+GET http://localhost:8080/admin/list
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-22T235213.200.json
+
+###
+
+GET http://localhost:8080/admin/list
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-22T235211.200.json
+
+###
+
+GET http://localhost:8080/admin/list
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-22T235114.200.json
+
+###
+
+GET http://localhost:8080/admin/list
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-22T234740.200.json
+
+###
+
+GET http://localhost:8080/admin/list
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-22T234525.200.json
+
+###
+
+GET http://localhost:8080/admin/list
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-22T234236.200.json
+
+###
+
+GET http://localhost:8080/admin/list
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-22T233921.200.json
+
+###
+
+GET http://localhost:8080/bugapoint/discriminators
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-22T125031.200.json
+
+###
+
+POST http://localhost:8080/addBugapoint?latitude=49.1321774&longitude=9.1823254&title=JA&type=Buehne&adminEmail=maxk@buga23.com
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T225100.200.json
+
+###
+
+GET http://localhost:8080/adminOfId?adminId=1
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T223739.200.json
+
+###
+
+GET http://localhost:8080/adminOfId?adminId=1
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T223635.200.json
+
+###
+
+GET http://localhost:8080/adminOfId?adminId=1
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T221153.200.json
+
+###
+
+GET http://localhost:8080/filterBugapoints
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T204514.200.json
+
+###
+
+GET http://localhost:8080/filterBugapoints
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T204333.400.json
+
+###
+
+GET http://localhost:8080/filterBugapoints
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T204142.400.json
+
+###
+
+POST http://localhost:8080/addBugapoint?latitude=49.1321774&longitude=9.1823254&title=JA&type=Buehne&adminEmail=maxk@buga23.com
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T193344.200.json
+
+###
+
+POST http://localhost:8080/addBugapoint?latitude=49.1321774&longitude=9.1823254&title=JA&type=Buehne&adminEmail=maxk@buga23.com
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T190535.200.json
+
+###
+
+POST http://localhost:8080/addBugapoint?latitude=49.1321774&longitude=9.1823254&title=Test&type=Schach&adminEmail=maxk@buga23.com
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T184614.200.json
+
+###
+
+POST http://localhost:8080/addBugapoint?adminEmail=maxk@buga23.com?latitude=49.1321774?longitude=9.1823254?title=Test&type=Schach
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T184017.400.json
+
+###
+
+POST http://localhost:8080/addBugapoint?title=Test&latitude=0.0&longitude=0.0&type=Schach&adminEmail=julian@buga23.com
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T182608.200.json
+
+###
+
+POST http://localhost:8080/addBugapoint?title=Test&latitude=0.0&longitude=0.0&type=Schach&adminEmail=maxk@buga23.com
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T182540.200.json
+
+###
+
+POST http://localhost:8080/addBugapoint?title=Test&latitude=0.0&longitude=0.0&type=Schach&adminEmail=maxk@buga23.com
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T182134.200.json
+
+###
+
+POST http://localhost:8080/addBugapoint?title=Test&latitude=0.0&longitude=0.0&type=Schach
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T182110.400.json
+
+###
+
+POST http://localhost:8080/addBugapoint?title=Test&latitude=0.0&longitude=0.0&type=Schach
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T182021.200.json
+
+###
+
+POST http://localhost:8080/addBugapoint?title=Test&latitude=0.0&longitude=0.0&type=Schach
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T182004.200.json
+
+###
+
+POST http://localhost:8080/addBugapoint?title=Test&latitude=0.0&longitude=0.0&type=Schach
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T181632.200.json
+
+###
+
+POST http://localhost:8080/addBugapoint?latitude=0.0&longitude=0.0&type=Schach
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T181609.400.json
+
+###
+
+POST http://localhost:8080/addBugapoint?latitude=0.0&longitude=0.0&type=Schach
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T180738.400.json
+
+###
+
+POST http://localhost:8080/addBugapoint?title=Test&latitude=0.0&longitude=0.0&type=Schach
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T180714.200.json
+
+###
+
+POST http://localhost:8080/addBugapoint?title=Test&latitude=0.0&longitude=0.0&type=Schach
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+POST http://localhost:8080/addBugapoint?title=Test&latitude=0.0&longitude=0.0&type=Schach
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+POST http://localhost:8080/addBugapoint?title=Test&latitude=0.0&longitude=0.0&type=Schach
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+
+GET http://localhost:8080/addBugapoint?title=Test&latitude=0.0&longitude=0.0&type=Schach
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T175004.405.json
+
+###
+
+GET http://localhost:8080/filterBugapoints?title=Test&latitude=0.0&longitude=0.0&type=Schach
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T174802.400.json
+
+###
+
+GET http://localhost:8080/filterBugapoints?title=Test&latitude=0&longitude=0&type=Schach
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-16T174722.400.json
+
+###
+
+GET http://localhost:8080/bugapoints
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-15T132316.404.html
+
+###
+
+GET http://localhost:8080/filterBugapoints?discriminators=Buehne
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-15T115254.200.json
+
+###
+
+GET http://localhost:8080/filterBugapoints?discriminators=Buehne
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-15T115242.200.json
+
+###
+
+GET http://localhost:8080/filterBugapoints?discriminators=Schach,Buehne
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-15T115227.200.json
+
+###
+
+GET http://localhost:8080/filterBugapoints?discriminators=Schach,Buehne
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-15T115122.500.json
+
+###
+
+GET http://localhost:8080/filterBugapoints?discriminators=Schach,Buehne
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-15T114735.500.json
+
+###
+
+GET http://localhost:8080/filterBugapoints?discriminators=Schach,Buehne
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-15T114351.500.json
+
+###
+
+GET http://localhost:8080/filterBugapoints?discriminators=Schach,Buehne
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-15T114300.500.json
+
+###
+
+GET http://localhost:8080/filterBugapoints?discriminators=Schach&discriminators=Buehne
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-15T114207.500.json
+
+###
+
