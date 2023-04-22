@@ -5,10 +5,14 @@ import de.hhn.se.labswp.bugaMap.jpa.Admin;
 import de.hhn.se.labswp.bugaMap.responses.DatabaseSaveResponse;
 import java.util.List;
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +23,15 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:4200")
 public class AdminController {
 
-  public AdminController(AdminRepository adminRepository) {
+  private final AdminRepository adminRepository;
+
+  private final JdbcTemplate jdbcTemplate;
+
+  public AdminController(AdminRepository adminRepository, JdbcTemplate jdbcTemplate) {
     this.adminRepository = adminRepository;
+    this.jdbcTemplate = jdbcTemplate;
   }
 
-  private final AdminRepository adminRepository;
 
   /**
    * Standard request to get all admins.
@@ -71,5 +79,17 @@ public class AdminController {
           .body(new DatabaseSaveResponse(false, e.getMessage()));
     }
   }
+
+
+  @GetMapping(value = "id/{id}")
+  public Admin getById(@PathVariable int id) {
+    String sql = "SELECT * FROM admin WHERE id = ?";
+    return jdbcTemplate.queryForObject(sql, new Object[]{id}, new BeanPropertyRowMapper<>(Admin.class));
+  }
+
+
+
+
+
 
 }
