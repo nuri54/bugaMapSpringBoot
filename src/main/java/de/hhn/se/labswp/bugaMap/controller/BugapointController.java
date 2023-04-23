@@ -4,6 +4,7 @@ import de.hhn.se.labswp.bugaMap.crudRepos.BugapointRepository;
 import de.hhn.se.labswp.bugaMap.jpa.Bugapoint;
 import de.hhn.se.labswp.bugaMap.requests.BugapointRequest;
 import de.hhn.se.labswp.bugaMap.responses.DatabaseSaveResponse;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -58,7 +59,7 @@ public class BugapointController {
   List<String> discriminators) {
 
     if (discriminators == null || discriminators.isEmpty()) {
-      return (List<Bugapoint>) bugapointRepository.findAll();
+      return new ArrayList<>();
     }
 
     String sql = "SELECT * FROM bugapoint WHERE Discriminator IN (" +
