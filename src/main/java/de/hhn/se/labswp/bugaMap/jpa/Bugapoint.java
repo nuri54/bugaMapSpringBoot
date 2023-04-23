@@ -9,7 +9,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
+@Builder
+@Getter
+@Setter
 @Entity
 @Table(name = "bugapoint")
 public class Bugapoint {
@@ -19,8 +25,11 @@ public class Bugapoint {
   @Column(name = "ID", nullable = false)
   private Integer id;
 
-  @Column(name = "AdminID", nullable = false)
-  private Integer adminID;
+  @JoinColumn(name = "ParkID", nullable = false)
+  private int parkID;
+
+  @JoinColumn(name = "AdminID", nullable = false)
+  private int adminID;
 
   @Column(name = "Title", nullable = false)
   private String title;
@@ -34,52 +43,33 @@ public class Bugapoint {
   @Column(name = "Discriminator", nullable = false)
   private String discriminator;
 
-  public Integer getId() {
-    return id;
-  }
+  @Column(name = "Description", length = 4095)
+  private String description;
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public Integer getAdminID() {
-    return adminID;
-  }
-
-  public void setAdminID(Integer adminID) {
+  public Bugapoint(int parkID, int adminID, String title, Double longitude, Double latitude,
+      String discriminator, String description) {
+    this.parkID = parkID;
     this.adminID = adminID;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
     this.title = title;
-  }
-
-  public Double getLongitude() {
-    return longitude;
-  }
-
-  public void setLongitude(Double longitude) {
     this.longitude = longitude;
-  }
-
-  public Double getLatitude() {
-    return latitude;
-  }
-
-  public void setLatitude(Double latitude) {
     this.latitude = latitude;
-  }
-
-  public String getDiscriminator() {
-    return discriminator;
-  }
-
-  public void setDiscriminator(String discriminator) {
     this.discriminator = discriminator;
+    this.description = description;
   }
 
+  public Bugapoint(Integer id, int parkID, int adminID, String title, Double longitude,
+      Double latitude, String discriminator, String description) {
+    this.id = id;
+    this.parkID = parkID;
+    this.adminID = adminID;
+    this.title = title;
+    this.longitude = longitude;
+    this.latitude = latitude;
+    this.discriminator = discriminator;
+    this.description = description;
+  }
+
+  public Bugapoint() {
+
+  }
 }
