@@ -3,13 +3,17 @@ package de.hhn.se.labswp.bugaMap.jpa;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+@Builder
 @Getter
 @Setter
 @Entity
@@ -17,6 +21,7 @@ import lombok.Setter;
 public class Bugapoint {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID", nullable = false)
   private Integer id;
 
@@ -41,4 +46,30 @@ public class Bugapoint {
   @Column(name = "Description", length = 4095)
   private String description;
 
+  public Bugapoint(int parkID, int adminID, String title, Double longitude, Double latitude,
+      String discriminator, String description) {
+    this.parkID = parkID;
+    this.adminID = adminID;
+    this.title = title;
+    this.longitude = longitude;
+    this.latitude = latitude;
+    this.discriminator = discriminator;
+    this.description = description;
+  }
+
+  public Bugapoint(Integer id, int parkID, int adminID, String title, Double longitude,
+      Double latitude, String discriminator, String description) {
+    this.id = id;
+    this.parkID = parkID;
+    this.adminID = adminID;
+    this.title = title;
+    this.longitude = longitude;
+    this.latitude = latitude;
+    this.discriminator = discriminator;
+    this.description = description;
+  }
+
+  public Bugapoint() {
+
+  }
 }

@@ -2,6 +2,7 @@ package de.hhn.se.labswp.bugaMap.controller;
 
 import de.hhn.se.labswp.bugaMap.crudRepos.BugapointRepository;
 import de.hhn.se.labswp.bugaMap.jpa.Bugapoint;
+import de.hhn.se.labswp.bugaMap.requests.BugapointRequest;
 import de.hhn.se.labswp.bugaMap.responses.DatabaseSaveResponse;
 import java.util.Collections;
 import java.util.List;
@@ -70,7 +71,17 @@ public class BugapointController {
    * Adds the given bugapoint to the database.
    */
   @PostMapping("/save")
-  public ResponseEntity<DatabaseSaveResponse> add(@RequestBody Bugapoint bugapoint) {
+  public ResponseEntity<DatabaseSaveResponse> save(@RequestBody BugapointRequest request) {
+
+    Bugapoint bugapoint = Bugapoint.builder()
+        .parkID(request.getParkID())
+        .adminID(request.getAdminID())
+        .title(request.getTitle())
+        .latitude(request.getLatitude())
+        .longitude(request.getLongitude())
+        .description(request.getDescription())
+        .discriminator(request.getDiscriminator())
+        .build();
 
     try {
       bugapointRepository.save(bugapoint);
@@ -82,6 +93,36 @@ public class BugapointController {
     return ResponseEntity.ok(new DatabaseSaveResponse(true, "Bugapoint saved"));
   }
 
+
+  @PostMapping("/add")
+  public ResponseEntity<DatabaseSaveResponse> add(@RequestParam(value = "parkId") int parkId,
+      @RequestParam(value="adminId") int adminId, @RequestParam(value = "title") String title,
+      @RequestParam(value = "latitude") double latitude,
+      @RequestParam(value = "longitude") double longitude,
+      @RequestParam(value = "discriminator") String discriminator,
+      @RequestParam(value = "description") String description) {
+
+
+    try {
+      Bugapoint bugapoint = Bugapoint.builder()
+          .parkID(parkId)
+          .adminID(adminId)
+          .title(title)
+          .latitude(latitude)
+          .longitude(longitude)
+          .discriminator(discriminator)
+          .description(description)
+          .build();
+
+      bugapointRepository.save(bugapoint);
+
+      return ResponseEntity.ok(new DatabaseSaveResponse(true, "saved"));
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new DatabaseSaveResponse(false, e.getCause().getMessage()));
+    }
+
+  }
 
   /**
    * Simple request to get all the different types of the buga points.

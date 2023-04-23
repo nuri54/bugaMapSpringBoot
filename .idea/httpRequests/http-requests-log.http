@@ -1,3 +1,23 @@
+POST http://localhost:8080/bugapoint/add?parkId=1&adminId=1&title=TEST&latitude=0&longitude=0&discriminator=TEST&description=TEST
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-23T021455.200.json
+
+###
+
+POST http://localhost:8080/bugapoint/add?parkId=1&adminId=1&title=TEST&latitude=0&longitude=0&discriminator=TEST&description=TEST
+Content-Length: 0
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-04-23T021346.500.json
+
+###
+
 GET http://localhost:8080/park/id/2
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
@@ -439,24 +459,6 @@ User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
 <> 2023-04-15T114351.500.json
-
-###
-
-GET http://localhost:8080/filterBugapoints?discriminators=Schach,Buehne
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-04-15T114300.500.json
-
-###
-
-GET http://localhost:8080/filterBugapoints?discriminators=Schach&discriminators=Buehne
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-04-15T114207.500.json
 
 ###
 
