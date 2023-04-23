@@ -39,6 +39,11 @@ public class AuthenticationController {
   public boolean checkToken(
       @RequestBody CheckTokenRequest request
   ){
-    return service.checkToken(request);
+    if(request.getToken().isEmpty()){
+      return false;
+    }
+    else {
+      return service.checkToken(request);
+    }
   }
 }
