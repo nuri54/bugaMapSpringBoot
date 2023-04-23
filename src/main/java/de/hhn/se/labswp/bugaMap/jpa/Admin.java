@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -114,4 +113,15 @@ public class Admin implements UserDetails {
     this.password = password;
   }
 
+
+  @Override
+  public String toString() {
+    return "Admin{" +
+        "id=" + id +
+        ", firstname='" + firstname + '\'' +
+        ", lastname='" + lastname + '\'' +
+        ", emailadress='" + emailadress + '\'' +
+        ", password='" + password + '\'' +
+        '}';
+  }
 }

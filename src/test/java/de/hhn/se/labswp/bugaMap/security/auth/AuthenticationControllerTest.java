@@ -36,6 +36,9 @@ class AuthenticationControllerTest {
     //when
     Admin expected  = adminRepository.findByEmailadress("frank.bauer@buga23.de").get();
 
+    System.out.println(expected);
+    System.out.println(admin);
+
     //then
     assertThat(expected).isEqualTo(admin);
 
