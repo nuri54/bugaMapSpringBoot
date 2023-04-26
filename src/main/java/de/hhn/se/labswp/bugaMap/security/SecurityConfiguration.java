@@ -45,9 +45,10 @@ public class SecurityConfiguration {
     return http.build();
   }
 
+
   private CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+    configuration.setAllowedOrigins(Arrays.asList("https://www.bugamap.de/"));
     configuration.setAllowedMethods(Arrays.asList("*"));
     configuration.setAllowedHeaders(Arrays.asList(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE));
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
