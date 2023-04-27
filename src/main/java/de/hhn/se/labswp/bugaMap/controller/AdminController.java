@@ -92,8 +92,19 @@ public class AdminController {
    */
   @GetMapping(value = "id/{id}")
   public Admin getById(@PathVariable int id) {
-    String sql = "SELECT * FROM admin WHERE id = ?";
-    return jdbcTemplate.queryForObject(sql, new Object[]{id}, new BeanPropertyRowMapper<>(Admin.class));
+    return jdbcTemplate.queryForObject("SELECT * FROM admin WHERE id = ?",
+        new BeanPropertyRowMapper<>(Admin.class), id);
+  }
+
+  /**
+   * Returns an admin over the given email address
+   *
+   * @return admin
+   */
+  @GetMapping(value = "emailaddress/{emailaddress}")
+  public Admin getByEmailAdress(@PathVariable String emailaddress) {
+    return jdbcTemplate.queryForObject("SELECT * FROM admin WHERE emailadress = ?",
+        new BeanPropertyRowMapper<>(Admin.class), emailaddress);
   }
 
 

@@ -12,8 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -133,6 +136,36 @@ public class BugapointController {
   public List<String> getDiscriminators() {
     return jdbcTemplate.queryForList(
         "SELECT DISTINCT discriminator FROM bugapoint", String.class);
+  }
+
+
+  /**
+   * Update Bugapoint method
+   *
+   * @param bugaPointId id of the bugapoint which gets updated
+   * @param newLat new latitude
+   * @param newLong new longitude
+   * @param newDescription new description
+   * @param newAdminId new admin id
+   * @return Response
+   */
+  @PutMapping("/update")
+  public ResponseEntity<DatabaseSaveResponse> updateBugapoint(@RequestParam(value = "bugaPointId") int bugaPointId,
+      @RequestParam(value = "newLat") double newLat, @RequestParam(value = "newLong") double newLong,
+      @RequestParam(value = "newDescription") String newDescription,
+      @RequestParam(value = "newAdminId") int newAdminId) {
+
+    if  (bugapointRepository.updateLatitudeAndLongitudeAndDescriptionAndAdminIDByIdIn(newLat, newLong,
+        newDescription.trim(), newAdminId, bugaPointId) == 1) {
+      return ResponseEntity.ok(new DatabaseSaveResponse(true, "Updated"));
+    }
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(new DatabaseSaveResponse(false, "Failed"));
+  }
+
+  @DeleteMapping("/delete")
+  public void deleteById(@RequestParam(value = "id") int id) {
+    bugapointRepository.deleteById(id);
   }
 
 
