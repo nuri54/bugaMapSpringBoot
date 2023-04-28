@@ -4,9 +4,12 @@ import de.hhn.se.labswp.bugaMap.crudRepos.BugapointRepository;
 import de.hhn.se.labswp.bugaMap.jpa.Bugapoint;
 import de.hhn.se.labswp.bugaMap.requests.BugapointRequest;
 import de.hhn.se.labswp.bugaMap.responses.DatabaseSaveResponse;
+import de.hhn.se.labswp.bugaMap.security.JwtService;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -30,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/bugapoint")
 public class BugapointController {
 
+  private static Logger logger = LogManager.getLogger(BugapointController.class);
   private final BugapointRepository bugapointRepository;
 
   private final JdbcTemplate jdbcTemplate;
@@ -150,8 +154,10 @@ public class BugapointController {
    * @return Response
    */
   @PutMapping("/update")
-  public ResponseEntity<DatabaseSaveResponse> updateBugapoint(@RequestParam(value = "bugaPointId") int bugaPointId,
-      @RequestParam(value = "newLat") double newLat, @RequestParam(value = "newLong") double newLong,
+  public ResponseEntity<DatabaseSaveResponse> updateBugapoint(
+      @RequestParam(value = "bugaPointId") int bugaPointId,
+      @RequestParam(value = "newLat") double newLat,
+      @RequestParam(value = "newLong") double newLong,
       @RequestParam(value = "newDescription") String newDescription,
       @RequestParam(value = "newAdminId") int newAdminId) {
 
@@ -166,6 +172,7 @@ public class BugapointController {
   @DeleteMapping("/delete")
   public void deleteById(@RequestParam(value = "id") int id) {
     bugapointRepository.deleteById(id);
+    logger.info("Deleted bugapoint with id = " + id);
   }
 
 
