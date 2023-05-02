@@ -1,12 +1,15 @@
 package de.hhn.se.labswp.bugamap.controller.adminauthority;
 
+import de.hhn.se.labswp.bugamap.crudrepos.AdminRepository;
 import de.hhn.se.labswp.bugamap.crudrepos.BugapointRepository;
+import de.hhn.se.labswp.bugamap.jpa.Admin;
 import de.hhn.se.labswp.bugamap.jpa.Bugapoint;
 import de.hhn.se.labswp.bugamap.requests.BugapointRequest;
 import de.hhn.se.labswp.bugamap.responses.DatabaseSaveResponse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -33,17 +36,19 @@ public class AdminBugapointController {
 
   private final BugapointRepository bugapointRepository;
 
+  private final AdminRepository adminRepository;
+
   private final JdbcTemplate jdbcTemplate;
 
   public AdminBugapointController(BugapointRepository bugapointRepository,
-      JdbcTemplate jdbcTemplate) {
+      AdminRepository adminRepository, JdbcTemplate jdbcTemplate) {
     this.bugapointRepository = bugapointRepository;
+    this.adminRepository = adminRepository;
     this.jdbcTemplate = jdbcTemplate;
   }
 
 
   /**
-<<<<<<<< HEAD:src/main/java/de/hhn/se/labswp/bugamap/controller/BugapointController.java
    * Simple request to get all points in the database.
    *
    * @return bugapoints all bugapoints
@@ -74,8 +79,6 @@ public class AdminBugapointController {
   }
 
   /**
-========
->>>>>>>> max.adminpanel:src/main/java/de/hhn/se/labswp/bugamap/controller/adminauthority/AdminBugapointController.java
    * Adds the given bugapoint to the database.
    */
   @PostMapping("/save")
@@ -156,7 +159,7 @@ public class AdminBugapointController {
    * @param newLat         new latitude
    * @param newLong        new longitude
    * @param newDescription new description
-   * @param newAdminId     new admin id
+   * @param newAdminEmailaddress     new admin id
    * @return Response
    */
   @PutMapping("/update")
@@ -165,11 +168,19 @@ public class AdminBugapointController {
       @RequestParam(value = "newLat") double newLat,
       @RequestParam(value = "newLong") double newLong,
       @RequestParam(value = "newDescription") String newDescription,
-      @RequestParam(value = "newAdminId") int newAdminId) {
+      @RequestParam(value = "newAdminEmailaddress") String newAdminEmailaddress) {
+
+    //AdminEmail in id
+    Optional<Admin> newAdmin = adminRepository.findByEmailadress(newAdminEmailaddress);
+
+    if (newAdmin.isEmpty()) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new DatabaseSaveResponse(false, "Admin not found"));
+    }
 
     if (bugapointRepository.updateLatitudeAndLongitudeAndDescriptionAndAdminIDByIdIn(newLat,
         newLong,
-        newDescription.trim(), newAdminId, bugaPointId) == 1) {
+        newDescription.trim(), newAdmin.get().getId(), bugaPointId) == 1) {
       logger.info("Updated bugapoint with id = " + bugaPointId);
       return ResponseEntity.ok(new DatabaseSaveResponse(true, "Updated"));
     }
