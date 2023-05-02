@@ -48,7 +48,7 @@ public class SecurityConfiguration {
 
   private CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(Arrays.asList("https://www.bugamap.de/", "https://buga23cli-git-test-master-nuri54.vercel.app/map"));
+    configuration.setAllowedOrigins(Arrays.asList("https://www.bugamap.de/", "https://buga23cli-git-test-master-nuri54.vercel.app/"));
     configuration.setAllowedMethods(Arrays.asList("*"));
     configuration.setAllowedHeaders(Arrays.asList(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE));
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
