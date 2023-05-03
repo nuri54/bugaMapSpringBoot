@@ -38,3 +38,6 @@ out/
 
 ### application properties for database access ###
 src/main/resources/application.properties
+
+### Mac specific files ##
+.DS_Store
