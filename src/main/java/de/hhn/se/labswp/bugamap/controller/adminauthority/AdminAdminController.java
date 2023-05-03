@@ -32,7 +32,6 @@ public class AdminAdminController {
   @GetMapping("/firstname")
   public ResponseEntity<String> getFirstname(
       @RequestHeader("Authorization") String authorizationHeader) {
-    authorizationHeader = authorizationHeader.substring(7);
     String email = jwtService.extractUsername(authorizationHeader);
     Optional<Admin> adminFound = adminRepository.findByEmailadress(email);
     if (adminFound.isPresent()) {
