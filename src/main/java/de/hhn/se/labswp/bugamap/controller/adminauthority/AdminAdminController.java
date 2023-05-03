@@ -1,5 +1,6 @@
 package de.hhn.se.labswp.bugamap.controller.adminauthority;
 
+import de.hhn.se.labswp.bugamap.controller.adminauthority.responses.FirstnameResponse;
 import de.hhn.se.labswp.bugamap.crudrepos.AdminRepository;
 import de.hhn.se.labswp.bugamap.jpa.Admin;
 import de.hhn.se.labswp.bugamap.security.JwtService;
@@ -30,13 +31,14 @@ public class AdminAdminController {
    * @return admin's first name if the admin exists, or a 404 response if the admin is not found
    */
   @GetMapping("/firstname")
-  public ResponseEntity<String> getFirstname(
+  public ResponseEntity<FirstnameResponse> getFirstname(
       @RequestHeader("Authorization") String authorizationHeader) {
     String email = jwtService.extractUsername(authorizationHeader);
     Optional<Admin> adminFound = adminRepository.findByEmailadress(email);
     if (adminFound.isPresent()) {
       Admin admin = adminFound.get();
-      return ResponseEntity.ok(admin.getFirstname());
+
+      return ResponseEntity.ok(new FirstnameResponse(admin.getFirstname()));
     }
     return ResponseEntity.notFound().build();
   }
