@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Rest controller class for handling admin authority API endpoints.
  */
 @RestController
-@RequestMapping(path = "/api/v1/admin")
+@RequestMapping(path = "/api/v1/admin/admin")
 @RequiredArgsConstructor
 public class AdminAdminController {
 
