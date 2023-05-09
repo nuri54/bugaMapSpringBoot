@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -25,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/bugapoint")
 public class BugapointController {
 
-  private static Logger logger = LogManager.getLogger(BugapointController.class);
+  private static final Logger logger = LogManager.getLogger(BugapointController.class);
   private final BugapointRepository bugapointRepository;
 
   private final JdbcTemplate jdbcTemplate;
