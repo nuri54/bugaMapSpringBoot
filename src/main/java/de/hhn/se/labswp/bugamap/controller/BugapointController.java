@@ -2,16 +2,15 @@ package de.hhn.se.labswp.bugamap.controller;
 
 import de.hhn.se.labswp.bugamap.crudrepos.BugapointRepository;
 import de.hhn.se.labswp.bugamap.jpa.Bugapoint;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,52 +44,55 @@ public class BugapointController {
    */
   @GetMapping("/list")
   public List<Bugapoint> getBugapoints(@RequestParam(required = false) Map<String, String> query) {
-    List<Bugapoint> output = (List<Bugapoint>) bugapointRepository.findAll();
-    StringBuilder loggingMessage = new StringBuilder("Sent bugapoints. ");
-
-    //Sorting
-    if (query.containsKey("sortBy")) {
-      switch (query.get("sortBy")) {
-        case "parkId":
-          output.sort(Comparator.comparingInt(Bugapoint::getParkID));
-        case "title":
-          output.sort(Comparator.comparing(Bugapoint::getTitle));
-        case "longitude":
-          output.sort(Comparator.comparingDouble(Bugapoint::getLongitude));
-        case "latitude":
-          output.sort(Comparator.comparingDouble(Bugapoint::getLatitude));
-      }
-      loggingMessage.append("(Sorted by ").append(query.get("sortBy")).append(") ");
-    }
+    StringBuilder sqlQuery = new StringBuilder("SELECT * FROM bugapoint ");
+    StringBuilder notification = new StringBuilder(" ");
 
     //Where
-    if (query.containsKey("whereDiscriminator")) {
-      output.removeIf(bugapoint ->
-          (!bugapoint.getDiscriminator().trim().equals(query.get("whereDiscriminator").trim())));
-      loggingMessage.append("(where discriminator = ")
-          .append(query.get("whereDiscriminator")).append(") ");
-    }
-    if (query.containsKey("whereTitle")) {
-      output.removeIf(bugapoint -> (!bugapoint.getTitle().trim()
-          .equals(query.get("whereTitle").trim())));
-      loggingMessage.append("(where title = ")
-          .append(query.get("whereTitle")).append(") ");
+    StringBuilder whereConditions = new StringBuilder("WHERE (");
+
+    if (query.containsKey("whereId")) {
+      whereConditions.append("id = '").append(query.get("whereId")).append("' AND ");
     }
     if (query.containsKey("whereParkId")) {
-      try {
-        output.removeIf(bugapoint ->
-            ((bugapoint.getParkID() != Integer.parseInt(query.get("whereParkId")))));
-      } catch (Exception ignore) {      }
-      loggingMessage.append("(where parkId = ")
-          .append(query.get("whereParkId")).append(") ");
+      whereConditions.append("parkId = '").append(query.get("whereParkId")).append("' AND ");
+    }
+    if (query.containsKey("whereDiscriminator")) {
+      whereConditions.append("discriminator = '").append(query.get("whereDiscriminator")).append("' AND ");
+    }
+    if (query.containsKey("whereTitle")) {
+      whereConditions.append("title = '").append(query.get("whereTitle")).append("' AND ");
+    }
+
+    if (!whereConditions.toString().equals("WHERE (")) {
+      // Einbauen
+      whereConditions.delete(whereConditions.length() - 5,whereConditions.length());
+      whereConditions.append(")");
+      sqlQuery.append(whereConditions).append(" ");
+    }
+
+    //Sorting
+    if (query.containsKey("orderBy") && Bugapoint.getColumns().contains(query.get("orderBy"))) {
+      sqlQuery.append("ORDER BY ").append(query.get("orderBy")).append(" ");
+      if (query.containsKey("order") && (query.get("order").equals("desc") ||
+          query.get("order").equals("asc"))) {
+        sqlQuery.append(query.get("order"));
+      } else {
+        notification.append("Order must be \"asc\" or \"desc\"");
+      }
+    } else {
+      notification.append("Can not order by ").append(query.get("orderBy"));
     }
 
 
-    logger.info(loggingMessage.toString().trim());
-    return output;
+
+
+    logger.info("Sent bugapoints with query: " + sqlQuery.toString().trim()
+        + notification.toString().trim());
+    return jdbcTemplate.query(sqlQuery.toString().trim(),
+        (PreparedStatementSetter) null, new BeanPropertyRowMapper<>(Bugapoint.class));
   }
 
-  /**
+  /** DEPRECATED
    * Returns all bugapoints with the matching discriminators.
    *
    * @param discriminators discriminators
@@ -110,7 +112,7 @@ public class BugapointController {
         new BeanPropertyRowMapper<>(Bugapoint.class));
   }
 
-  /**
+  /** DEPRECATED
    * Returns all bugapoints with the parkId.
    *
    * @param parkid ParkID
