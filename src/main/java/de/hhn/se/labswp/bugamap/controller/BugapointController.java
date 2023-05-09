@@ -51,7 +51,7 @@ public class BugapointController {
    */
   @GetMapping("/list/filter")
   public List<Bugapoint> getBugapoints(@RequestParam(value = "discriminators", required = false)
-  List<String> discriminators) {
+    List<String> discriminators) {
 
     if (discriminators == null || discriminators.isEmpty()) {
       return new ArrayList<>();
@@ -61,6 +61,20 @@ public class BugapointController {
         String.join(",", Collections.nCopies(discriminators.size(), "?")) + ")";
     return jdbcTemplate.query(sql, discriminators.toArray(),
         new BeanPropertyRowMapper<>(Bugapoint.class));
+  }
+
+  /**
+   * Returns all bugapoints with the parkId.
+   *
+   * @param parkid ParkID
+   * @return bugapoints
+   */
+  @GetMapping("/list/park")
+  public List<Bugapoint> getBugapoints(@RequestParam(value = "parkid", required = false) String parkid) {
+    if (parkid == null) {
+      return (List<Bugapoint>) bugapointRepository.findAll();
+    }
+    return bugapointRepository.findByParkID(Integer.parseInt(parkid));
   }
 
   /**

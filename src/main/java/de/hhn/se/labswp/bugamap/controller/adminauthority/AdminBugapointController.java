@@ -195,8 +195,14 @@ public class AdminBugapointController {
    * @param id identifier
    */
   @DeleteMapping("/delete")
-  public void deleteById(@RequestParam(value = "id") int id) {
-    bugapointRepository.deleteById(id);
-    logger.info("Deleted bugapoint with id = " + id);
+  public ResponseEntity<DatabaseSaveResponse> deleteById(@RequestParam(value = "id") int id) {
+    try {
+      bugapointRepository.deleteById(id);
+      logger.info("Deleted bugapoint with id = " + id);
+      return ResponseEntity.ok(new DatabaseSaveResponse(true, "Bugapoint deleted"));
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new DatabaseSaveResponse(false, "Failed"));
+    }
   }
 }

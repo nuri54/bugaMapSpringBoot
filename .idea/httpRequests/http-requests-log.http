@@ -1,3 +1,12 @@
+GET http://localhost:8080/bugapoint/list/park?parkid=1
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-05-07T144303.500.json
+
+###
+
 DELETE http://localhost:8080/bugapoint/delete?id=214
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
@@ -450,15 +459,6 @@ User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
 <> 2023-04-16T174722.400.json
-
-###
-
-GET http://localhost:8080/bugapoints
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
-Accept-Encoding: br,deflate,gzip,x-gzip
-
-<> 2023-04-15T132316.404.html
 
 ###
 
