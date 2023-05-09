@@ -2,9 +2,12 @@ package de.hhn.se.labswp.bugamap.controller;
 
 import de.hhn.se.labswp.bugamap.crudrepos.BugapointRepository;
 import de.hhn.se.labswp.bugamap.jpa.Bugapoint;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -35,12 +38,56 @@ public class BugapointController {
 
   /**
    * Simple request to get all points in the database.
+   * Sortable by: parkId, title, longitude, latitude.
+   * Also query by: discriminator
    *
    * @return bugapoints all bugapoints
    */
   @GetMapping("/list")
-  public List<Bugapoint> getBugapoints() {
-    return (List<Bugapoint>) bugapointRepository.findAll();
+  public List<Bugapoint> getBugapoints(@RequestParam(required = false) Map<String, String> query) {
+    List<Bugapoint> output = (List<Bugapoint>) bugapointRepository.findAll();
+    StringBuilder loggingMessage = new StringBuilder("Sent bugapoints. ");
+
+    //Sorting
+    if (query.containsKey("sortBy")) {
+      switch (query.get("sortBy")) {
+        case "parkId":
+          output.sort(Comparator.comparingInt(Bugapoint::getParkID));
+        case "title":
+          output.sort(Comparator.comparing(Bugapoint::getTitle));
+        case "longitude":
+          output.sort(Comparator.comparingDouble(Bugapoint::getLongitude));
+        case "latitude":
+          output.sort(Comparator.comparingDouble(Bugapoint::getLatitude));
+      }
+      loggingMessage.append("(Sorted by ").append(query.get("sortBy")).append(") ");
+    }
+
+    //Where
+    if (query.containsKey("whereDiscriminator")) {
+      output.removeIf(bugapoint ->
+          (!bugapoint.getDiscriminator().trim().equals(query.get("whereDiscriminator").trim())));
+      loggingMessage.append("(where discriminator = ")
+          .append(query.get("whereDiscriminator")).append(") ");
+    }
+    if (query.containsKey("whereTitle")) {
+      output.removeIf(bugapoint -> (!bugapoint.getTitle().trim()
+          .equals(query.get("whereTitle").trim())));
+      loggingMessage.append("(where title = ")
+          .append(query.get("whereTitle")).append(") ");
+    }
+    if (query.containsKey("whereParkId")) {
+      try {
+        output.removeIf(bugapoint ->
+            ((bugapoint.getParkID() != Integer.parseInt(query.get("whereParkId")))));
+      } catch (Exception ignore) {      }
+      loggingMessage.append("(where parkId = ")
+          .append(query.get("whereParkId")).append(") ");
+    }
+
+
+    logger.info(loggingMessage.toString().trim());
+    return output;
   }
 
   /**
