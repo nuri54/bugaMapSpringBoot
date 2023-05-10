@@ -80,14 +80,14 @@ public class BugapointController {
         notification.append("Order must be \"asc\" or \"desc\"");
       }
     } else {
-      notification.append("Can not order by ").append(query.get("orderBy"));
+      notification.append("Can not order by \"").append(query.get("orderBy")).append("\"");
     }
 
 
 
 
     logger.info("Sent bugapoints with query: " + sqlQuery.toString().trim()
-        + notification.toString().trim());
+        + notification);
     return jdbcTemplate.query(sqlQuery.toString().trim(),
         (PreparedStatementSetter) null, new BeanPropertyRowMapper<>(Bugapoint.class));
   }
