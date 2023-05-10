@@ -45,7 +45,7 @@ public class BugapointController {
   @GetMapping("/list")
   public List<Bugapoint> getBugapoints(@RequestParam(required = false) Map<String, String> query) {
     StringBuilder sqlQuery = new StringBuilder("SELECT * FROM bugapoint ");
-    StringBuilder notification = new StringBuilder(" ");
+    StringBuilder notification = new StringBuilder(" |");
 
     //Where
     StringBuilder whereConditions = new StringBuilder("WHERE (");
