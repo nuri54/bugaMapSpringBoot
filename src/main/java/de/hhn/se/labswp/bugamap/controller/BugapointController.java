@@ -92,40 +92,6 @@ public class BugapointController {
         (PreparedStatementSetter) null, new BeanPropertyRowMapper<>(Bugapoint.class));
   }
 
-  /** DEPRECATED
-   * Returns all bugapoints with the matching discriminators.
-   *
-   * @param discriminators discriminators
-   * @return filtered bugapoints
-   */
-  @GetMapping("/list/filter")
-  public List<Bugapoint> getBugapoints(@RequestParam(value = "discriminators", required = false)
-    List<String> discriminators) {
-
-    if (discriminators == null || discriminators.isEmpty()) {
-      return new ArrayList<>();
-    }
-
-    String sql = "SELECT * FROM bugapoint WHERE Discriminator IN (" +
-        String.join(",", Collections.nCopies(discriminators.size(), "?")) + ")";
-    return jdbcTemplate.query(sql, discriminators.toArray(),
-        new BeanPropertyRowMapper<>(Bugapoint.class));
-  }
-
-  /** DEPRECATED
-   * Returns all bugapoints with the parkId.
-   *
-   * @param parkid ParkID
-   * @return bugapoints
-   */
-  @GetMapping("/list/park")
-  public List<Bugapoint> getBugapoints(@RequestParam(value = "parkid", required = false) String parkid) {
-    if (parkid == null) {
-      return (List<Bugapoint>) bugapointRepository.findAll();
-    }
-    return bugapointRepository.findByParkID(Integer.parseInt(parkid));
-  }
-
   /**
    * Simple request to get all the different types of the buga points.
    *
