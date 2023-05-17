@@ -9,6 +9,8 @@ import de.hhn.se.labswp.bugamap.responses.DatabaseSaveResponse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -110,14 +112,13 @@ public class AdminBugapointController {
   /**
    * Adds a bugapoint to the database.
    *
-   * @param parkId identifier of the park
-   * @param adminId identifier of the admin
-   * @param title title
-   * @param latitude latitude
-   * @param longitude longitude
+   * @param parkId        identifier of the park
+   * @param adminId       identifier of the admin
+   * @param title         title
+   * @param latitude      latitude
+   * @param longitude     longitude
    * @param discriminator discriminator
-   * @param description description
-   *
+   * @param description   description
    * @return Response if the Request was successful or not.
    */
   @PostMapping("/add")
@@ -155,38 +156,78 @@ public class AdminBugapointController {
   /**
    * Update Bugapoint method.
    *
-   * @param bugaPointId    id of the bugapoint which gets updated
-   * @param newLat         new latitude
-   * @param newLong        new longitude
-   * @param newDescription new description
-   * @param newAdminEmailaddress     new admin id
-   * @return Response
+   * @param bugaPointId id of the bugapoint which gets update
+   * @param query new values of the bugapoint
+   * @return Respons
+   * e
    */
   @PutMapping("/update")
   public ResponseEntity<DatabaseSaveResponse> updateBugapoint(
       @RequestParam(value = "bugaPointId") int bugaPointId,
-      @RequestParam(value = "newLat") double newLat,
-      @RequestParam(value = "newLong") double newLong,
-      @RequestParam(value = "newDescription") String newDescription,
-      @RequestParam(value = "newAdminEmailaddress") String newAdminEmailaddress) {
+      @RequestParam Map<String, String> query) {
 
-    //AdminEmail in id
-    Optional<Admin> newAdmin = adminRepository.findByEmailadress(newAdminEmailaddress);
-
-    if (newAdmin.isEmpty()) {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(new DatabaseSaveResponse(false, "Admin not found"));
+    Optional<Bugapoint> bugapoint = bugapointRepository.findById(bugaPointId);
+    if (bugapoint.isEmpty()) {
+      logger.info("Tried to update a bugapoint with the id " + bugaPointId
+          + ". Error: No bugapoint found.");
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new DatabaseSaveResponse(
+          false, "Bugapoint (id = " + bugaPointId + ")not found"));
     }
 
-    if (bugapointRepository.updateLatitudeAndLongitudeAndDescriptionAndAdminIDByIdIn(newLat,
-        newLong,
-        newDescription.trim(), newAdmin.get().getId(), bugaPointId) == 1) {
-      logger.info("Updated bugapoint with id = " + bugaPointId);
-      return ResponseEntity.ok(new DatabaseSaveResponse(true, "Updated"));
+    StringBuilder responseText = new StringBuilder("Updated bugapoint (id = " + bugaPointId + "): ");
+
+    //Admin
+    if (query.containsKey("newAdminEmailaddress")) {
+      Optional<Admin> newAdmin = adminRepository.findByEmailadress(query.get("newAdminEmailaddress"));
+      logger.info(query.get("newAdminEmailaddress"));
+      if (newAdmin.isEmpty()) { // Admin  not found
+        responseText.append("AdminEmailaddress \"").append(query.get("newAdminEmailaddress"))
+            .append("\" not found,");
+      } else {
+        bugapointRepository.updateAdminIDById(newAdmin.get().getId(), bugaPointId);
+        responseText.append("AdminEmailaddress changed to: ")
+            .append(query.get("newAdminEmailaddress")).append(", ");
+      }
+      query.remove("newAdminEmailaddress");
     }
-    logger.info("Failed to updated bugapoint with id = " + bugaPointId);
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(new DatabaseSaveResponse(false, "Failed"));
+
+    //Description
+    if (query.containsKey("newDescription")) {
+      bugapointRepository.updateDescriptionById(query.get("newDescription"), bugaPointId);
+      responseText.append("description changed to: \"").append(query.get("newDescription"))
+          .append("\", ");
+
+      query.remove("newDescription");
+    }
+
+    //Latitude
+    if (query.containsKey("newLat")) {
+      try {
+        bugapointRepository.updateLatitudeById(Double.valueOf(query.get("newLat")), bugaPointId);
+
+        responseText.append("latitude changed to: ").append(Double.valueOf(query.get("newLat")))
+            .append(", ");
+      } catch (Exception e) {
+        responseText.append("Failed to change latitude").append(", ");
+      }
+      query.remove("newLat");
+    }
+
+    //Longitude
+    if (query.containsKey("newLng")) {
+      try {
+        bugapointRepository.updateLongitudeById(Double.valueOf(query.get("newLng")), bugaPointId);
+        responseText.append("longitude changed to: ").append(Double.valueOf(query.get("newLng")))
+            .append(", ");
+      } catch (Exception e) {
+        responseText.append("Failed to change longitude").append(", ");
+      }
+      query.remove("newLng");
+    }
+
+    responseText.delete(responseText.length() - 2,responseText.length());
+    logger.info(responseText);
+    return ResponseEntity.ok(new DatabaseSaveResponse(true, responseText.toString()));
   }
 
   /**
@@ -205,4 +246,5 @@ public class AdminBugapointController {
           .body(new DatabaseSaveResponse(false, "Failed"));
     }
   }
+
 }
