@@ -87,7 +87,6 @@ public class AdminBugapointController {
   public ResponseEntity<DatabaseSaveResponse> save(@RequestBody BugapointRequest request) {
 
     Bugapoint bugapoint = Bugapoint.builder()
-        .parkID(request.getParkID())
         .adminID(request.getAdminID())
         .title(request.getTitle())
         .latitude(request.getLatitude())
@@ -95,6 +94,13 @@ public class AdminBugapointController {
         .description(request.getDescription())
         .discriminator(request.getDiscriminator())
         .build();
+
+    //Calculate Park ID: Over or under Longitude
+    if (bugapoint.getLongitude() > 8.505825382916116) {
+      bugapoint.setParkID(2);
+    } else {
+      bugapoint.setParkID(1);
+    }
 
     try {
       bugapointRepository.save(bugapoint);
@@ -179,7 +185,6 @@ public class AdminBugapointController {
     //Admin
     if (query.containsKey("newAdminEmailaddress")) {
       Optional<Admin> newAdmin = adminRepository.findByEmailadress(query.get("newAdminEmailaddress"));
-      logger.info(query.get("newAdminEmailaddress"));
       if (newAdmin.isEmpty()) { // Admin  not found
         responseText.append("AdminEmailaddress \"").append(query.get("newAdminEmailaddress"))
             .append("\" not found,");
@@ -223,6 +228,15 @@ public class AdminBugapointController {
         responseText.append("Failed to change longitude").append(", ");
       }
       query.remove("newLng");
+    }
+
+    //Discriminator
+    if (query.containsKey("newDiscriminator")) {
+      bugapointRepository.updateDiscriminatorById(query.get("newDiscriminator"), bugaPointId);
+      responseText.append("discriminator changed to: \"").append(query.get("newDiscriminator"))
+          .append("\", ");
+
+      query.remove("newDiscriminator");
     }
 
     responseText.delete(responseText.length() - 2,responseText.length());
