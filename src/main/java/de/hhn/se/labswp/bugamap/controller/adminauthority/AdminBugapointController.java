@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -104,9 +103,11 @@ public class AdminBugapointController {
 
     try {
       bugapointRepository.save(bugapoint);
+      logger.info("New bugapoint saved: " + bugapoint);
     } catch (Exception e) {
+      logger.info("Something failed to save a bugapoint.");
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-          new DatabaseSaveResponse(false, e.getCause().getCause().getMessage()));
+          new DatabaseSaveResponse(false, e.getCause().getMessage()));
     }
 
     logger.info("Bugapoint saved to the database: " + bugapoint);
@@ -198,7 +199,7 @@ public class AdminBugapointController {
 
     //Description
     if (query.containsKey("newDescription")) {
-      bugapointRepository.updateDescriptionById(query.get("newDescription"), bugaPointId);
+      bugapointRepository.updateDescriptionById(query.get("newDescription").trim(), bugaPointId);
       responseText.append("description changed to: \"").append(query.get("newDescription"))
           .append("\", ");
 
@@ -221,6 +222,16 @@ public class AdminBugapointController {
     //Longitude
     if (query.containsKey("newLng")) {
       try {
+
+        double newLng = Double.parseDouble(query.get("newLng"));
+
+        //Calculate Park ID: Over or under Longitude
+        if (newLng > 8.505825382916116) {
+          bugapointRepository.updateParkIDById(2, bugaPointId);
+        } else {
+          bugapointRepository.updateParkIDById(1, bugaPointId);
+        }
+
         bugapointRepository.updateLongitudeById(Double.valueOf(query.get("newLng")), bugaPointId);
         responseText.append("longitude changed to: ").append(Double.valueOf(query.get("newLng")))
             .append(", ");
@@ -232,7 +243,7 @@ public class AdminBugapointController {
 
     //Discriminator
     if (query.containsKey("newDiscriminator")) {
-      bugapointRepository.updateDiscriminatorById(query.get("newDiscriminator"), bugaPointId);
+      bugapointRepository.updateDiscriminatorById(query.get("newDiscriminator").trim(), bugaPointId);
       responseText.append("discriminator changed to: \"").append(query.get("newDiscriminator"))
           .append("\", ");
 
