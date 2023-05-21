@@ -17,12 +17,12 @@ public class BugapointRequest {
   /**
    * The ID of the park in which the Bugapoint is located.
    */
-  private int parkID;
+  private Integer parkID;
 
   /**
    * The ID of the admin who created the Bugapoint.
    */
-  private int adminID;
+  private Integer adminID;
 
   /**
    * The title of the Bugapoint.

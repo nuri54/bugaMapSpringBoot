@@ -1,9 +1,15 @@
 package de.hhn.se.labswp.bugamap.responses;
 
+import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Represents a response for saving data to the database. Contains information about whether the
  * save operation was successful or not, and a message associated with it.
  */
+@Getter
+@Setter
 public class DatabaseSaveResponse {
 
   /**
@@ -16,6 +22,16 @@ public class DatabaseSaveResponse {
   private String message;
 
   /**
+   * List of failed objects.
+   */
+  private Set<String> failed;
+
+  /**
+   * List of succeeded objects;
+   */
+  private Set<String> succeeded;
+
+  /**
    * Constructs a new {@code DatabaseSaveResponse} object.
    *
    * @param success Whether the save operation was successful or not.
@@ -23,42 +39,6 @@ public class DatabaseSaveResponse {
    */
   public DatabaseSaveResponse(boolean success, String message) {
     this.success = success;
-    this.message = message;
-  }
-
-  /**
-   * Gets the value of the {@code success} field.
-   *
-   * @return The value of the {@code success} field.
-   */
-  public boolean isSuccess() {
-    return success;
-  }
-
-  /**
-   * Sets the value of the success field.
-   *
-   * @param success The new value of the success field.
-   */
-  public void setSuccess(boolean success) {
-    this.success = success;
-  }
-
-  /**
-   * Gets the value of the message field.
-   *
-   * @return The value of the message field.
-   */
-  public String getMessage() {
-    return message;
-  }
-
-  /**
-   * Sets the value of the message field.
-   *
-   * @param message The new value of the message field.
-   */
-  public void setMessage(String message) {
     this.message = message;
   }
 }
