@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Mappings for Bugapoint table.
  */
 @RestController
-@RequestMapping("/park")
+@RequestMapping("open/park")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ParkController {
 

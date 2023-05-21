@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Mappings for Bugapoint table.
  */
 @RestController
-@RequestMapping("/bugapoint")
+@RequestMapping("open/bugapoint")
 public class BugapointController {
 
   private static final Logger logger = LogManager.getLogger(BugapointController.class);

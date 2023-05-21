@@ -1,4 +1,4 @@
-package de.hhn.se.labswp.bugamap.controller.adminauthority;
+package de.hhn.se.labswp.bugamap.controller.managementauthority;
 
 import de.hhn.se.labswp.bugamap.crudrepos.AdminRepository;
 import de.hhn.se.labswp.bugamap.crudrepos.BugapointRepository;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Mappings with Admin access for Admin table.
  */
 @RestController()
-@RequestMapping("/api/v1/admin/bugapoint")
+@RequestMapping("/api/v1/management/bugapoint")
 public class AdminBugapointController {
 
   private static final Logger logger = LogManager.getLogger(AdminBugapointController.class);

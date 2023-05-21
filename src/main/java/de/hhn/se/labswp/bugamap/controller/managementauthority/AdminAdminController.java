@@ -1,6 +1,6 @@
-package de.hhn.se.labswp.bugamap.controller.adminauthority;
+package de.hhn.se.labswp.bugamap.controller.managementauthority;
 
-import de.hhn.se.labswp.bugamap.controller.adminauthority.responses.FirstnameResponse;
+import de.hhn.se.labswp.bugamap.controller.managementauthority.responses.FirstnameResponse;
 import de.hhn.se.labswp.bugamap.crudrepos.AdminRepository;
 import de.hhn.se.labswp.bugamap.jpa.Admin;
 import de.hhn.se.labswp.bugamap.security.JwtService;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Rest controller class for handling admin authority API endpoints.
  */
 @RestController
-@RequestMapping(path = "/api/v1/admin/admin")
+@RequestMapping(path = "/api/v1/management/admin")
 @RequiredArgsConstructor
 public class AdminAdminController {
 
