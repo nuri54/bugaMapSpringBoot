@@ -4,6 +4,7 @@ import de.hhn.se.labswp.bugamap.controller.managementauthority.responses.Firstna
 import de.hhn.se.labswp.bugamap.crudrepos.AdminRepository;
 import de.hhn.se.labswp.bugamap.jpa.Admin;
 import de.hhn.se.labswp.bugamap.security.JwtService;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +42,22 @@ public class AdminAdminController {
       return ResponseEntity.ok(new FirstnameResponse(admin.getFirstname()));
     }
     return ResponseEntity.notFound().build();
+  }
+
+  /**
+   * Standard request to get all admins. Notice: Passwords get blacken.
+   *
+   * @return All admins.
+   */
+  @GetMapping("/list")
+  public List<Admin> getAdmins() {
+    List<Admin> admins = adminRepository.findAll();
+
+    // Hide passwords
+    for (Admin admin :
+        admins) {
+      admin.setPassword("[HIDDEN]");
+    }
+    return admins;
   }
 }

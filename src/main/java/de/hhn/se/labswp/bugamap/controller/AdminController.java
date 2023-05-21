@@ -37,25 +37,6 @@ public class AdminController {
 
 
   /**
-   * Standard request to get all admins. Notice: Passwords get blacken.
-   *
-   * @return All admins.
-   */
-  @GetMapping("/list")
-  public List<Admin> getAdmins() {
-    List<Admin> admins = adminRepository.findAll();
-
-    // Hide passwords
-    for (Admin admin :
-        admins) {
-      admin.setPassword("[HIDDEN]");
-    }
-
-    return admins;
-  }
-
-
-  /**
    * POST Request to save one admin.
    *
    * @param admin Admin which will be put into the database.
