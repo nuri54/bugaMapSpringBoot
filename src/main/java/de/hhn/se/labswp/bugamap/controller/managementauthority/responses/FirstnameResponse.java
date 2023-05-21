@@ -1,4 +1,4 @@
-package de.hhn.se.labswp.bugamap.controller.adminauthority.responses;
+package de.hhn.se.labswp.bugamap.controller.managementauthority.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

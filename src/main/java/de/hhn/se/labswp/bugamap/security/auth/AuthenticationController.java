@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Rest Controller class that handles authentication requests.
  */
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/open/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
