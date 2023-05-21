@@ -1,5 +1,6 @@
 package de.hhn.se.labswp.bugamap.responses;
 
+import java.util.ArrayList;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,12 +25,12 @@ public class DatabaseSaveResponse {
   /**
    * List of failed objects.
    */
-  private Set<String> failed;
+  private ArrayList<String> failed;
 
   /**
    * List of succeeded objects;
    */
-  private Set<String> succeeded;
+  private ArrayList<String> succeeded;
 
   /**
    * Constructs a new {@code DatabaseSaveResponse} object.

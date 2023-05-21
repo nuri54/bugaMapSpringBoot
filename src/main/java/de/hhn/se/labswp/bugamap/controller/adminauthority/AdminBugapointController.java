@@ -6,11 +6,13 @@ import de.hhn.se.labswp.bugamap.jpa.Admin;
 import de.hhn.se.labswp.bugamap.jpa.Bugapoint;
 import de.hhn.se.labswp.bugamap.requests.BugapointRequest;
 import de.hhn.se.labswp.bugamap.responses.DatabaseSaveResponse;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.util.buf.UEncoder;
@@ -165,16 +167,17 @@ public class AdminBugapointController {
    * Update Bugapoint method.
    *
    * @param bugaPointId id of the bugapoint which gets update
-   * @param request
-   * @return Respons
-   * e
+   * @param request values of the new bugapoint
+   * @return Response
+   *
    */
   @PutMapping("/update")
   public ResponseEntity<DatabaseSaveResponse> updateBugapoint(
       @RequestParam(value = "bugaPointId") int bugaPointId,
       @RequestBody BugapointRequest request) {
 
-    logger.info(bugaPointId);
+    ArrayList<String> succeeded = new ArrayList<>();
+    ArrayList<String> failed = new ArrayList<>();
 
     Optional<Bugapoint> bugapoint = bugapointRepository.findById(bugaPointId);
     if (bugapoint.isEmpty()) {
@@ -189,43 +192,84 @@ public class AdminBugapointController {
 
     //Admin
     if (request.getAdminID() != null) {
-      bugapointRepository.updateAdminIDById(request.getAdminID(), bugaPointId);
-      responseText.append("AdminID changed to: ")
-          .append(request.getAdminID()).append(", ");
+      try {
+        bugapointRepository.updateAdminIDById(request.getAdminID(), bugaPointId);
+        responseText.append("AdminID changed to: ")
+            .append(request.getAdminID()).append(", ");
+        succeeded.add("admin");
+      } catch (Exception e) {
+        responseText.append("AdminID unable to changed to: ")
+            .append(request.getAdminID()).append(", ");
+        failed.add("admin");
+      }
     }
 
     //Description
     if (request.getDescription() != null) {
-      bugapointRepository.updateDescriptionById(request.getDescription(), bugaPointId);
-      responseText.append("description changed to: \"").append(request.getDescription())
-          .append("\", ");
+      try {
+        bugapointRepository.updateDescriptionById(request.getDescription(), bugaPointId);
+        responseText.append("description changed to: \"").append(request.getDescription())
+            .append("\", ");
+        succeeded.add("description");
+      } catch (Exception e) {
+        responseText.append("description unable to changed to: \"").append(request.getDescription())
+            .append("\", ");
+        failed.add("description");
+      }
     }
 
     //Latitude
     if (request.getLatitude() != null) {
-      bugapointRepository.updateLatitudeById(request.getLatitude(), bugaPointId);
-      responseText.append("latitude changed to: ").append(request.getLatitude())
-          .append(", ");
+
+      try {
+        bugapointRepository.updateLatitudeById(request.getLatitude(), bugaPointId);
+        responseText.append("latitude changed to: ").append(request.getLatitude())
+            .append(", ");
+        succeeded.add("latitude");
+      } catch (Exception e) {
+        responseText.append("latitude unable to changed to: ").append(request.getLatitude())
+            .append(", ");
+        failed.add("latitude");
+      }
     }
 
     //Longitude
     if (request.getLongitude() != null) {
-      bugapointRepository.updateLongitudeById(request.getLongitude(), bugaPointId);
-      responseText.append("longitude changed to: ").append(request.getLongitude())
-          .append(", ");
+      try {
+        bugapointRepository.updateLongitudeById(request.getLongitude(), bugaPointId);
+        responseText.append("longitude changed to: ").append(request.getLongitude())
+            .append(", ");
+        succeeded.add("longitude");
+      } catch (Exception e ) {
+        responseText.append("longitude unable to changed to: ").append(request.getLongitude())
+            .append(", ");
+        failed.add("longitude");
+      }
     }
 
     //Discriminator
     if (request.getDiscriminator() != null) {
-      bugapointRepository.updateDiscriminatorById(request.getDiscriminator(), bugaPointId);
+      try {
+        bugapointRepository.updateDiscriminatorById(request.getDiscriminator(), bugaPointId);
+        responseText.append("discriminator changed to: \"").append(request.getDiscriminator())
+            .append("\", ");
+        succeeded.add("discriminator");
+      } catch (Exception e) {
+        responseText.append("discriminator unable to changed to: \"").append(request.getDiscriminator())
+            .append("\", ");
+        failed.add("discriminator");
+      }
 
-      responseText.append("discriminator changed to: \"").append(request.getDiscriminator())
-          .append("\", ");
     }
 
     responseText.delete(responseText.length() - 2,responseText.length());
     logger.info(responseText);
-    return ResponseEntity.ok(new DatabaseSaveResponse(true, responseText.toString()));
+
+    DatabaseSaveResponse successResponse = new DatabaseSaveResponse(true, responseText.toString());
+    successResponse.setSucceeded(succeeded);
+    successResponse.setFailed(failed);
+
+    return ResponseEntity.ok(successResponse);
   }
 
   /**
