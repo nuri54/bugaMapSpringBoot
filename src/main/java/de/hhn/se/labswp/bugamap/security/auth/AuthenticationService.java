@@ -1,6 +1,6 @@
 package de.hhn.se.labswp.bugamap.security.auth;
 
-import de.hhn.se.labswp.bugamap.security.auth.Roles.Role;
+import de.hhn.se.labswp.bugamap.security.auth.roles.Role;
 import de.hhn.se.labswp.bugamap.crudrepos.AdminRepository;
 import de.hhn.se.labswp.bugamap.jpa.Admin;
 import de.hhn.se.labswp.bugamap.security.JwtService;

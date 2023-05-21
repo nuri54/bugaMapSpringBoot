@@ -1,6 +1,6 @@
 package de.hhn.se.labswp.bugamap.jpa;
 
-import de.hhn.se.labswp.bugamap.security.auth.Roles.Role;
+import de.hhn.se.labswp.bugamap.security.auth.roles.Role;
 import jakarta.persistence.*;
 
 import java.util.Collection;

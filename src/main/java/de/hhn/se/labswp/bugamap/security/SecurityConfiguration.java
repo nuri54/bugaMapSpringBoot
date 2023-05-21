@@ -17,9 +17,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static de.hhn.se.labswp.bugamap.security.auth.Roles.Permission.*;
-import static de.hhn.se.labswp.bugamap.security.auth.Roles.Role.ADMIN;
-import static de.hhn.se.labswp.bugamap.security.auth.Roles.Role.MANAGER;
+import static de.hhn.se.labswp.bugamap.security.auth.roles.Permission.*;
+import static de.hhn.se.labswp.bugamap.security.auth.roles.Role.ADMIN;
+import static de.hhn.se.labswp.bugamap.security.auth.roles.Role.MANAGER;
 
 /**
  * This class provides configuration for Spring Security for the BugaMap application.
