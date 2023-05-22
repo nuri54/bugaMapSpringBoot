@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 /**
  * Service class for authentication-related functionalities.
  */
@@ -73,11 +74,14 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
+        String roleAdmin;
         Admin admin = repository.findByEmailadress(request.getEmail()).orElseThrow();
+        roleAdmin = admin.getRoleAsString();
 
         String jwtToken = jwtService.generateToken(admin);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .role(roleAdmin)
                 .build();
     }
 

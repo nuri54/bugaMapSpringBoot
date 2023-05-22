@@ -1,9 +1,14 @@
 package de.hhn.se.labswp.bugamap.controller;
 
+import de.hhn.se.labswp.bugamap.controller.managementauthority.responses.FirstnameResponse;
 import de.hhn.se.labswp.bugamap.crudrepos.AdminRepository;
 import de.hhn.se.labswp.bugamap.jpa.Admin;
 import de.hhn.se.labswp.bugamap.responses.DatabaseSaveResponse;
+
 import java.util.List;
+import java.util.Optional;
+
+import de.hhn.se.labswp.bugamap.security.JwtService;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,22 +31,23 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:4200")
 public class AdminController {
 
-  private final AdminRepository adminRepository;
+    private final AdminRepository adminRepository;
 
-  private final JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-  public AdminController(AdminRepository adminRepository, JdbcTemplate jdbcTemplate) {
-    this.adminRepository = adminRepository;
-    this.jdbcTemplate = jdbcTemplate;
-  }
+    public AdminController(AdminRepository adminRepository, JdbcTemplate jdbcTemplate) {
+        this.adminRepository = adminRepository;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
 
-  /**
-   * POST Request to save one admin.
-   *
-   * @param admin Admin which will be put into the database.
-   * @return response if saving to the database was successful or not.
-   */
+    /**
+     * POST Request to save one admin.
+     *
+     * @param admin Admin which will be put into the database.
+     * @return response if saving to the database was successful or not.
+     */
+  /*
   @PostMapping(value = "/save")
   public ResponseEntity<DatabaseSaveResponse> add(@RequestBody Admin admin) {
     try {
@@ -58,34 +64,35 @@ public class AdminController {
         }
       }
 
+
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(new DatabaseSaveResponse(false, e.getMessage()));
     }
   }
+  */
 
+    /**
+     * Returns the admin with given id.
+     *
+     * @param id ID of the admin
+     * @return admin
+     */
+    @GetMapping(value = "id/{id}")
+    public Admin getById(@PathVariable int id) {
+        return jdbcTemplate.queryForObject("SELECT * FROM admin WHERE id = ?",
+                new BeanPropertyRowMapper<>(Admin.class), id);
+    }
 
-  /**
-   * Returns the admin with given id.
-   *
-   * @param id ID of the admin
-   * @return admin
-   */
-  @GetMapping(value = "id/{id}")
-  public Admin getById(@PathVariable int id) {
-    return jdbcTemplate.queryForObject("SELECT * FROM admin WHERE id = ?",
-        new BeanPropertyRowMapper<>(Admin.class), id);
-  }
-
-  /**
-   * Returns an admin over the given email address.
-   *
-   * @return admin
-   */
-  @GetMapping(value = "emailaddress/{emailaddress}")
-  public Admin getByEmailAdress(@PathVariable String emailaddress) {
-    return jdbcTemplate.queryForObject("SELECT * FROM admin WHERE emailadress = ?",
-        new BeanPropertyRowMapper<>(Admin.class), emailaddress);
-  }
+    /**
+     * Returns an admin over the given email address.
+     *
+     * @return admin
+     */
+    @GetMapping(value = "emailaddress/{emailaddress}")
+    public Admin getByEmailAdress(@PathVariable String emailaddress) {
+        return jdbcTemplate.queryForObject("SELECT * FROM admin WHERE emailadress = ?",
+                new BeanPropertyRowMapper<>(Admin.class), emailaddress);
+    }
 
 
 }

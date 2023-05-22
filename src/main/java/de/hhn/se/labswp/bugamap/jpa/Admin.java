@@ -134,6 +134,10 @@ public class Admin implements UserDetails {
         this.role = role;
     }
 
+    public String getRoleAsString() {
+        return this.role.toString();
+    }
+
     /**
      * Returns the granted authorities of the admin. In this case, the admin role is returned.
      *
