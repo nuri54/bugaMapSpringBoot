@@ -54,6 +54,9 @@ public class Admin implements UserDetails {
     @Column(name = "Password")
     private String password;
 
+    /**
+     * The role of the admin.
+     */
     @Column(name = "Role")
     @Enumerated(EnumType.STRING)
     private Role role;

@@ -140,6 +140,7 @@ public class AdminBugapointController {
           .longitude(longitude)
           .discriminator(discriminator)
           .description(description)
+          .iconname(discriminator)
           .build();
 
       bugapointRepository.save(bugapoint);

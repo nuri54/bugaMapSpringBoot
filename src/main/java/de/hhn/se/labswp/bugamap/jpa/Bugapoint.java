@@ -76,27 +76,8 @@ public class Bugapoint {
   @Column(name = "Description", length = 4095)
   private String description;
 
-  /**
-   * Constructs a new Bugapoint object with the given parameters.
-   *
-   * @param parkID        the identifier of the park this Bugapoint belongs to
-   * @param adminID       the identifier of the admin who reported this Bugapoint
-   * @param title         the title of this Bugapoint
-   * @param longitude     the longitude coordinate of this Bugapoint
-   * @param latitude      the latitude coordinate of this Bugapoint
-   * @param discriminator the type of this Bugapoint
-   * @param description   the description of this Bugapoint
-   */
-  public Bugapoint(int parkID, int adminID, String title, Double longitude, Double latitude,
-      String discriminator, String description) {
-    this.parkID = parkID;
-    this.adminID = adminID;
-    this.title = title;
-    this.longitude = longitude;
-    this.latitude = latitude;
-    this.discriminator = discriminator;
-    this.description = description;
-  }
+  @Column(name = "Iconname")
+  private String iconname;
 
   /**
    * Creates a new instance of the `Bugapoint` class with the given parameters.
@@ -109,9 +90,10 @@ public class Bugapoint {
    * @param latitude      the latitude of the Bugapoint's location
    * @param discriminator the discriminator of the Bugapoint
    * @param description   the description of the Bugapoint
+   * @param iconname      the icon name of the bugapoint
    */
   public Bugapoint(Integer id, int parkID, int adminID, String title, Double longitude,
-      Double latitude, String discriminator, String description) {
+      Double latitude, String discriminator, String description, String iconname) {
     this.id = id;
     this.parkID = parkID;
     this.adminID = adminID;
@@ -120,6 +102,7 @@ public class Bugapoint {
     this.latitude = latitude;
     this.discriminator = discriminator;
     this.description = description;
+    this.iconname = iconname;
   }
 
   /**
