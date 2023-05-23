@@ -1,21 +1,15 @@
 package de.hhn.se.labswp.bugamap.controller.managementauthority;
 
-import de.hhn.se.labswp.bugamap.crudrepos.AdminRepository;
 import de.hhn.se.labswp.bugamap.crudrepos.BugapointRepository;
-import de.hhn.se.labswp.bugamap.jpa.Admin;
 import de.hhn.se.labswp.bugamap.jpa.Bugapoint;
 import de.hhn.se.labswp.bugamap.requests.BugapointRequest;
 import de.hhn.se.labswp.bugamap.responses.DatabaseSaveResponse;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.tomcat.util.buf.UEncoder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -40,14 +34,12 @@ public class AdminBugapointController {
 
   private final BugapointRepository bugapointRepository;
 
-  private final AdminRepository adminRepository;
 
   private final JdbcTemplate jdbcTemplate;
 
   public AdminBugapointController(BugapointRepository bugapointRepository,
-      AdminRepository adminRepository, JdbcTemplate jdbcTemplate) {
+      JdbcTemplate jdbcTemplate) {
     this.bugapointRepository = bugapointRepository;
-    this.adminRepository = adminRepository;
     this.jdbcTemplate = jdbcTemplate;
   }
 
@@ -237,8 +229,19 @@ public class AdminBugapointController {
     if (request.getLongitude() != null) {
       try {
         bugapointRepository.updateLongitudeById(request.getLongitude(), bugaPointId);
-        responseText.append("longitude changed to: ").append(request.getLongitude())
-            .append(", ");
+        responseText.append("longitude changed to: ").append(request.getLongitude());
+
+        //ParkID
+        if (request.getLongitude() > 8.505825382916116) {
+          bugapointRepository.updateParkIDById(2, bugaPointId);
+          responseText.append(" (parkId = ").append(2);
+        } else {
+          bugapointRepository.updateParkIDById(1, bugaPointId);
+          responseText.append(" (parkId = ").append(1);
+        }
+
+        responseText.append(", ");
+
         succeeded.add("longitude");
       } catch (Exception e ) {
         responseText.append("longitude unable to changed to: ").append(request.getLongitude())
