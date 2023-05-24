@@ -1,5 +1,8 @@
 package de.hhn.se.labswp.bugamap.security.auth;
 
+import de.hhn.se.labswp.bugamap.crudrepos.AdminRepository;
+import de.hhn.se.labswp.bugamap.jpa.Admin;
+import de.hhn.se.labswp.bugamap.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
 
   private final AuthenticationService service;
+  private final AdminRepository adminRepository;
+  private final JwtService jwtService;
 
   /**
    * Registers a new user account.
@@ -56,6 +61,12 @@ public class AuthenticationController {
     if (request.getToken().isEmpty()) {
       return false;
     } else {
+      String email = jwtService.extractUsername(request.getToken());
+      Admin admin = adminRepository.findByEmailadress(email).orElseThrow();
+      String role = admin.getRoleAsString();
+      if(role.equals("TOBEACCEPTED")){
+        return false;
+      }
       return service.checkToken(request);
     }
   }
