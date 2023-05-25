@@ -87,6 +87,7 @@ public class AdminBugapointController {
         .longitude(request.getLongitude())
         .description(request.getDescription())
         .discriminator(request.getDiscriminator())
+        .iconname(request.getIconname())
         .build();
 
     //Calculate Park ID: Over or under Longitude

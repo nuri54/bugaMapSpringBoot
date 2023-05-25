@@ -49,4 +49,10 @@ public class BugapointRequest {
    */
   private String description;
 
+  /**
+   * The name of the icon of the Bugapoint.
+   */
+  private String iconname;
+
+
 }
