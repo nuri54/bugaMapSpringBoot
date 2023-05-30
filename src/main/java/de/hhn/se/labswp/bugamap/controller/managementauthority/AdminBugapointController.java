@@ -7,6 +7,7 @@ import de.hhn.se.labswp.bugamap.responses.DatabaseSaveResponse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -79,16 +80,24 @@ public class AdminBugapointController {
    */
   @PostMapping("/save")
   public ResponseEntity<DatabaseSaveResponse> save(@RequestBody BugapointRequest request) {
+    logger.info(request);
+    Bugapoint bugapoint;
+    try {
+      bugapoint = Bugapoint.builder()
+          .adminID(request.getAdminID())
+          .title(request.getTitle())
+          .latitude(request.getLatitude())
+          .longitude(request.getLongitude())
+          .description(request.getDescription())
+          .discriminator(request.getDiscriminator())
+          .iconname(request.getIconname())
+          .build();
+    } catch (Exception e) {
+      logger.info("Something failed to save a bugapoint. Sent values are faulty.");
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+          new DatabaseSaveResponse(false, "Sent values are faulty."));
+    }
 
-    Bugapoint bugapoint = Bugapoint.builder()
-        .adminID(request.getAdminID())
-        .title(request.getTitle())
-        .latitude(request.getLatitude())
-        .longitude(request.getLongitude())
-        .description(request.getDescription())
-        .discriminator(request.getDiscriminator())
-        .iconname(request.getIconname())
-        .build();
 
     //Calculate Park ID: Over or under Longitude
     if (bugapoint.getLongitude() > 8.505825382916116) {
@@ -161,9 +170,8 @@ public class AdminBugapointController {
    * Update Bugapoint method.
    *
    * @param bugaPointId id of the bugapoint which gets update
-   * @param request values of the new bugapoint
+   * @param request     values of the new bugapoint
    * @return Response
-   *
    */
   @PutMapping("/update")
   public ResponseEntity<DatabaseSaveResponse> updateBugapoint(
@@ -181,13 +189,15 @@ public class AdminBugapointController {
           false, "Bugapoint (id = " + bugaPointId + ")not found"));
     }
 
-    StringBuilder responseText = new StringBuilder("Updated bugapoint (id = " + bugaPointId + "): ");
-
+    StringBuilder responseText = new StringBuilder(
+        "Updated bugapoint (id = " + bugaPointId + "): ");
 
     //Admin
-    if (request.getAdminID() != null) {
+    if (request.getAdminID() != null && request.getAdminID() != bugapoint.get()
+        .getAdminID()) { // Check if exists AND new value
       try {
         bugapointRepository.updateAdminIDById(request.getAdminID(), bugaPointId);
+
         responseText.append("AdminID changed to: ")
             .append(request.getAdminID()).append(", ");
         succeeded.add("admin");
@@ -199,7 +209,8 @@ public class AdminBugapointController {
     }
 
     //Description
-    if (request.getDescription() != null) {
+    if (request.getDescription() != null &&
+        !request.getDescription().equals(bugapoint.get().getDescription())) {
       try {
         bugapointRepository.updateDescriptionById(request.getDescription(), bugaPointId);
         responseText.append("description changed to: \"").append(request.getDescription())
@@ -213,7 +224,8 @@ public class AdminBugapointController {
     }
 
     //Latitude
-    if (request.getLatitude() != null) {
+    if (request.getLatitude() != null && !request.getLatitude()
+        .equals(bugapoint.get().getLatitude())) {
 
       try {
         bugapointRepository.updateLatitudeById(request.getLatitude(), bugaPointId);
@@ -228,7 +240,8 @@ public class AdminBugapointController {
     }
 
     //Longitude
-    if (request.getLongitude() != null) {
+    if (request.getLongitude() != null &&
+        !request.getLongitude().equals(bugapoint.get().getLongitude())) {
       try {
         bugapointRepository.updateLongitudeById(request.getLongitude(), bugaPointId);
         responseText.append("longitude changed to: ").append(request.getLongitude());
@@ -245,7 +258,7 @@ public class AdminBugapointController {
         responseText.append(", ");
 
         succeeded.add("longitude");
-      } catch (Exception e ) {
+      } catch (Exception e) {
         responseText.append("longitude unable to changed to: ").append(request.getLongitude())
             .append(", ");
         failed.add("longitude");
@@ -253,21 +266,23 @@ public class AdminBugapointController {
     }
 
     //Discriminator
-    if (request.getDiscriminator() != null) {
+    if (request.getDiscriminator() != null &&
+        !request.getDiscriminator().equals(bugapoint.get().getDiscriminator())) {
       try {
         bugapointRepository.updateDiscriminatorById(request.getDiscriminator(), bugaPointId);
         responseText.append("discriminator changed to: \"").append(request.getDiscriminator())
             .append("\", ");
         succeeded.add("discriminator");
       } catch (Exception e) {
-        responseText.append("discriminator unable to changed to: \"").append(request.getDiscriminator())
+        responseText.append("discriminator unable to changed to: \"")
+            .append(request.getDiscriminator())
             .append("\", ");
         failed.add("discriminator");
       }
 
     }
 
-    responseText.delete(responseText.length() - 2,responseText.length());
+    responseText.delete(responseText.length() - 2, responseText.length());
     logger.info(responseText);
 
     DatabaseSaveResponse successResponse = new DatabaseSaveResponse(true, responseText.toString());
@@ -292,6 +307,15 @@ public class AdminBugapointController {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body(new DatabaseSaveResponse(false, "Failed"));
     }
+  }
+
+
+  @GetMapping("/iconnames")
+  public List<String> getIconnames() {
+    List<String> iconnames = jdbcTemplate.queryForList("SELECT DISTINCT iconname FROM bugapoint",
+        String.class);
+    iconnames.remove(null); //Remove null object
+    return iconnames;
   }
 
 }
