@@ -7,7 +7,6 @@ import de.hhn.se.labswp.bugamap.responses.DatabaseSaveResponse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,8 +34,10 @@ public class AdminBugapointController {
 
   private final BugapointRepository bugapointRepository;
 
-
   private final JdbcTemplate jdbcTemplate;
+
+  double[] southWestMannheim = new double[]{49.562104830601314, 8.36095242436513};
+  double[] northEastMannheim = new double[]{49.40726086087864, 8.619292747892453};
 
   public AdminBugapointController(BugapointRepository bugapointRepository,
       JdbcTemplate jdbcTemplate) {
@@ -98,6 +99,12 @@ public class AdminBugapointController {
           new DatabaseSaveResponse(false, "Sent values are faulty."));
     }
 
+    if (!checkIfCoordsInMannheim(bugapoint.getLatitude(), bugapoint.getLongitude())) {
+      logger.info("New bugapoint was not saved: Not in Mannheim");
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+          new DatabaseSaveResponse(false, "Coordinates not in Mannheim."));
+    }
+
 
     //Calculate Park ID: Over or under Longitude
     if (bugapoint.getLongitude() > 8.505825382916116) {
@@ -119,52 +126,6 @@ public class AdminBugapointController {
 
     return ResponseEntity.ok(new DatabaseSaveResponse(true, "Bugapoint saved"));
   }
-
-
-  /**
-   * Adds a bugapoint to the database.
-   *
-   * @param parkId        identifier of the park
-   * @param adminId       identifier of the admin
-   * @param title         title
-   * @param latitude      latitude
-   * @param longitude     longitude
-   * @param discriminator discriminator
-   * @param description   description
-   * @return Response if the Request was successful or not.
-   */
-  @PostMapping("/add")
-  public ResponseEntity<DatabaseSaveResponse> add(@RequestParam(value = "parkId") int parkId,
-      @RequestParam(value = "adminId") int adminId, @RequestParam(value = "title") String title,
-      @RequestParam(value = "latitude") double latitude,
-      @RequestParam(value = "longitude") double longitude,
-      @RequestParam(value = "discriminator") String discriminator,
-      @RequestParam(value = "description") String description) {
-
-    try {
-      Bugapoint bugapoint = Bugapoint.builder()
-          .parkID(parkId)
-          .adminID(adminId)
-          .title(title)
-          .latitude(latitude)
-          .longitude(longitude)
-          .discriminator(discriminator)
-          .description(description)
-          .iconname(discriminator)
-          .build();
-
-      bugapointRepository.save(bugapoint);
-
-      logger.info("Bugapoint saved to the database: " + bugapoint);
-      return ResponseEntity.ok(new DatabaseSaveResponse(true, "saved"));
-    } catch (Exception e) {
-      logger.info("Bugapoint failed to saved to the database");
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(new DatabaseSaveResponse(false, e.getCause().getMessage()));
-    }
-
-  }
-
 
   /**
    * Update Bugapoint method.
@@ -227,38 +188,53 @@ public class AdminBugapointController {
     if (request.getLatitude() != null && !request.getLatitude()
         .equals(bugapoint.get().getLatitude())) {
 
-      try {
-        bugapointRepository.updateLatitudeById(request.getLatitude(), bugaPointId);
-        responseText.append("latitude changed to: ").append(request.getLatitude())
-            .append(", ");
-        succeeded.add("latitude");
-      } catch (Exception e) {
+      if (checkIfCoordsInMannheim(request.getLatitude(), southWestMannheim[1])) {
+        try {
+          bugapointRepository.updateLatitudeById(request.getLatitude(), bugaPointId);
+          responseText.append("latitude changed to: ").append(request.getLatitude())
+              .append(", ");
+          succeeded.add("latitude");
+        } catch (Exception e) {
+          responseText.append("latitude unable to changed to: ").append(request.getLatitude())
+              .append(", ");
+          failed.add("latitude");
+        }
+      } else {
         responseText.append("latitude unable to changed to: ").append(request.getLatitude())
             .append(", ");
         failed.add("latitude");
       }
+
+
     }
 
     //Longitude
     if (request.getLongitude() != null &&
         !request.getLongitude().equals(bugapoint.get().getLongitude())) {
-      try {
-        bugapointRepository.updateLongitudeById(request.getLongitude(), bugaPointId);
-        responseText.append("longitude changed to: ").append(request.getLongitude());
 
-        //ParkID
-        if (request.getLongitude() > 8.505825382916116) {
-          bugapointRepository.updateParkIDById(2, bugaPointId);
-          responseText.append(" (parkId = ").append(2);
-        } else {
-          bugapointRepository.updateParkIDById(1, bugaPointId);
-          responseText.append(" (parkId = ").append(1);
+      if (checkIfCoordsInMannheim(southWestMannheim[0], request.getLongitude())) {
+        try {
+          bugapointRepository.updateLongitudeById(request.getLongitude(), bugaPointId);
+          responseText.append("longitude changed to: ").append(request.getLongitude());
+
+          //ParkID
+          if (request.getLongitude() > 8.505825382916116) {
+            bugapointRepository.updateParkIDById(2, bugaPointId);
+            responseText.append(" (parkId = ").append(2);
+          } else {
+            bugapointRepository.updateParkIDById(1, bugaPointId);
+            responseText.append(" (parkId = ").append(1);
+          }
+
+          responseText.append(", ");
+
+          succeeded.add("longitude");
+        } catch (Exception e) {
+          responseText.append("longitude unable to changed to: ").append(request.getLongitude())
+              .append(", ");
+          failed.add("longitude");
         }
-
-        responseText.append(", ");
-
-        succeeded.add("longitude");
-      } catch (Exception e) {
+      } else {
         responseText.append("longitude unable to changed to: ").append(request.getLongitude())
             .append(", ");
         failed.add("longitude");
@@ -310,12 +286,29 @@ public class AdminBugapointController {
   }
 
 
+  /**
+   * Sums up all different icon names currently in use.
+   *
+   * @return all icon names
+   */
   @GetMapping("/iconnames")
   public List<String> getIconnames() {
     List<String> iconnames = jdbcTemplate.queryForList("SELECT DISTINCT iconname FROM bugapoint",
         String.class);
     iconnames.remove(null); //Remove null object
     return iconnames;
+  }
+
+
+  private boolean checkIfCoordsInMannheim(double lat, double lng) {
+
+    double maxLat = southWestMannheim[0];
+    double minLng = southWestMannheim[1];
+    double minLat = northEastMannheim[0];
+    double maxLng = northEastMannheim[1];
+
+    // Überprüfe, ob die gegebenen Koordinaten innerhalb des begrenzten Bereichs liegen
+    return lat >= minLat && lat <= maxLat && lng >= minLng && lng <= maxLng;
   }
 
 }
