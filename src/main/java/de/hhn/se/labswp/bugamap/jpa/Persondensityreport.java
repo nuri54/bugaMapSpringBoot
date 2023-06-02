@@ -40,10 +40,8 @@ public class Persondensityreport {
   @Column(name = "Longitude", nullable = false)
   private Double longitude;
 
-  /**
-   * The validity of the report, after this date it is no longer valid.
-   */
-  @Column(name = "ValidTill")
+
+  @Column(name = "Validtill")
   private LocalDate validTill;
 
 }
