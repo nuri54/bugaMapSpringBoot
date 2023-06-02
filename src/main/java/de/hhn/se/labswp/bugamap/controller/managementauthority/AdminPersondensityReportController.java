@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Mappings for the person density reports.
  */
 @RestController()
-@RequestMapping("/api/v1/management/persondensity")
+@RequestMapping("/api/v1/management/pdr")
 public class AdminPersondensityReportController {
 
   private static final Logger logger = LogManager.getLogger(AdminPersondensityReportController.class);
@@ -48,6 +48,7 @@ public class AdminPersondensityReportController {
       return ResponseEntity.ok(
           new DatabaseSaveResponse(true, "Persondensityreport saved."));
     } catch (Exception e) {
+      logger.info(e.getMessage());
       logger.info("Failed to save new persondensityreport.");
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
           new DatabaseSaveResponse(false, "Persondensityreport not saved."));
