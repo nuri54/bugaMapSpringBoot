@@ -150,21 +150,14 @@ public class AdminBugapointController {
           false, "Bugapoint (id = " + bugaPointId + ")not found"));
     }
 
-    StringBuilder responseText = new StringBuilder(
-        "Updated bugapoint (id = " + bugaPointId + "): ");
 
     //Admin
     if (request.getAdminID() != null && request.getAdminID() != bugapoint.get()
         .getAdminID()) { // Check if exists AND new value
       try {
         bugapointRepository.updateAdminIDById(request.getAdminID(), bugaPointId);
-
-        responseText.append("AdminID changed to: ")
-            .append(request.getAdminID()).append(", ");
         succeeded.add("admin");
       } catch (Exception e) {
-        responseText.append("AdminID unable to changed to: ")
-            .append(request.getAdminID()).append(", ");
         failed.add("admin");
       }
     }
@@ -174,12 +167,8 @@ public class AdminBugapointController {
         !request.getDescription().equals(bugapoint.get().getDescription())) {
       try {
         bugapointRepository.updateDescriptionById(request.getDescription(), bugaPointId);
-        responseText.append("description changed to: \"").append(request.getDescription())
-            .append("\", ");
         succeeded.add("description");
       } catch (Exception e) {
-        responseText.append("description unable to changed to: \"").append(request.getDescription())
-            .append("\", ");
         failed.add("description");
       }
     }
@@ -191,17 +180,11 @@ public class AdminBugapointController {
       if (checkIfCoordsInMannheim(request.getLatitude(), southWestMannheim[1])) {
         try {
           bugapointRepository.updateLatitudeById(request.getLatitude(), bugaPointId);
-          responseText.append("latitude changed to: ").append(request.getLatitude())
-              .append(", ");
           succeeded.add("latitude");
         } catch (Exception e) {
-          responseText.append("latitude unable to changed to: ").append(request.getLatitude())
-              .append(", ");
           failed.add("latitude");
         }
       } else {
-        responseText.append("latitude unable to changed to: ").append(request.getLatitude())
-            .append(", ");
         failed.add("latitude");
       }
 
@@ -215,28 +198,20 @@ public class AdminBugapointController {
       if (checkIfCoordsInMannheim(southWestMannheim[0], request.getLongitude())) {
         try {
           bugapointRepository.updateLongitudeById(request.getLongitude(), bugaPointId);
-          responseText.append("longitude changed to: ").append(request.getLongitude());
 
           //ParkID
           if (request.getLongitude() > 8.505825382916116) {
             bugapointRepository.updateParkIDById(2, bugaPointId);
-            responseText.append(" (parkId = ").append(2);
           } else {
             bugapointRepository.updateParkIDById(1, bugaPointId);
-            responseText.append(" (parkId = ").append(1);
           }
 
-          responseText.append(", ");
 
           succeeded.add("longitude");
         } catch (Exception e) {
-          responseText.append("longitude unable to changed to: ").append(request.getLongitude())
-              .append(", ");
           failed.add("longitude");
         }
       } else {
-        responseText.append("longitude unable to changed to: ").append(request.getLongitude())
-            .append(", ");
         failed.add("longitude");
       }
     }
@@ -246,22 +221,19 @@ public class AdminBugapointController {
         !request.getDiscriminator().equals(bugapoint.get().getDiscriminator())) {
       try {
         bugapointRepository.updateDiscriminatorById(request.getDiscriminator(), bugaPointId);
-        responseText.append("discriminator changed to: \"").append(request.getDiscriminator())
-            .append("\", ");
         succeeded.add("discriminator");
       } catch (Exception e) {
-        responseText.append("discriminator unable to changed to: \"")
-            .append(request.getDiscriminator())
-            .append("\", ");
         failed.add("discriminator");
       }
 
     }
 
-    responseText.delete(responseText.length() - 2, responseText.length());
-    logger.info(responseText);
+    logger.info("Updated bugapoint (id = " + bugaPointId + "),"
+        + "failed: " + String.join(", ", failed)
+        + "; successful: " + String.join(", ", succeeded));
 
-    DatabaseSaveResponse successResponse = new DatabaseSaveResponse(true, responseText.toString());
+    DatabaseSaveResponse successResponse = new DatabaseSaveResponse(true,
+        bugaPointId + "saved.");
     successResponse.setSucceeded(succeeded);
     successResponse.setFailed(failed);
 
