@@ -81,7 +81,16 @@ public class SecurityConfiguration {
      */
     private CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://www.bugamap.de/", "https://buga23cli-git-test-master-nuri54.vercel.app/", "http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList(
+                // prod/test-master/localdev
+                "https://www.bugamap.de/", "https://buga23cli-git-test-master-nuri54.vercel.app/", "http://localhost:4200",
+                // alex.testmaster/julian.testmaster
+                "https://buga23cli-git-alextestmaster-nuri54.vercel.app/", "https://buga23cli-git-juliantestmaster-nuri54.vercel.app/",
+                // max.testmaster/denis.testmaster
+                "https://buga23cli-git-maxtestmaster-nuri54.vercel.app/", "https://buga23cli-git-denistestmaster-nuri54.vercel.app/",
+                // nuri.testmaster/peter.testmaster
+                "https://buga23cli-git-nuritestmaster-nuri54.vercel.app/", "https://buga23cli-git-petertestmaster-nuri54.vercel.app/"
+                ));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(
                 Arrays.asList(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE));
