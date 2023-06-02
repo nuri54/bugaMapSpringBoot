@@ -10,4 +10,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface PersondensityReportRepository
     extends CrudRepository<Persondensityreport, Integer> {
 
+  @Override
+  void deleteById(Integer integer);
 }
