@@ -28,19 +28,36 @@ public class Report {
   /**
    * The ID of the BugaPoint the report belongs to.
    */
-  @JoinColumn(name = "BugaPointID", nullable = false)
+  @JoinColumn(name = "BugaPointID")
   private int bugaPointID;
 
   /**
-   * The ID of the Admin user who created the report.
+   * The ID of the Park the report belongs to.
    */
-  @JoinColumn(name = "AdminID", nullable = false)
-  private int adminID;
+  @JoinColumn(name = "ParkID")
+  private int parkID;
 
   /**
-   * The text of the report, up to 4095 characters long.
+   * The Email of the Admin user who works on the report.
    */
-  @Column(name = "ReportText", length = 4095)
-  private String reportText;
+  @JoinColumn(name = "AdminEmail")
+  private String adminEmail;
 
+  /**
+   * The title of the report, up to 4095 characters long.
+   */
+  @Column(name = "title", length = 4095, nullable = false)
+  private String title;
+
+  /**
+   * The message of the report, up to 4095 characters long.
+   */
+  @Column(name = "message", length = 4095, nullable = false)
+  private String message;
+
+  /**
+   * The isClosed Boolean of the report, which indicates if a report is closed.
+   */
+  @Column(name = "isClosed", nullable = false)
+  private Boolean isClosed;
 }
