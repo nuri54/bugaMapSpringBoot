@@ -58,7 +58,7 @@ public class BugapointController {
       whereConditions.append("discriminator = '").append(query.get("whereDiscriminator")).append("' AND ");
     }
     if (query.containsKey("whereTitle")) {
-      whereConditions.append("title LIKE '").append(query.get("whereTitle")).append("' AND ");
+      whereConditions.append("title = '").append(query.get("whereTitle")).append("' AND ");
     }
 
     if (!whereConditions.toString().equals("WHERE (")) {
