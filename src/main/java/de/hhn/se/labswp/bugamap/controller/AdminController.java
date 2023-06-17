@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
- * Mappings for Admin table.
+ * Mappings for Admin table
  */
 @RestController()
 @RequestMapping("/api/v1/open")
