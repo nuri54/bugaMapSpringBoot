@@ -2,8 +2,6 @@ package de.hhn.se.labswp.bugamap.controller;
 
 import de.hhn.se.labswp.bugamap.crudrepos.BugapointRepository;
 import de.hhn.se.labswp.bugamap.jpa.Bugapoint;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.logging.log4j.LogManager;
@@ -60,7 +58,7 @@ public class BugapointController {
       whereConditions.append("discriminator = '").append(query.get("whereDiscriminator")).append("' AND ");
     }
     if (query.containsKey("whereTitle")) {
-      whereConditions.append("title = '").append(query.get("whereTitle")).append("' AND ");
+      whereConditions.append("title LIKE '").append(query.get("whereTitle")).append("' AND ");
     }
 
     if (!whereConditions.toString().equals("WHERE (")) {
