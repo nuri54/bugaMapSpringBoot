@@ -27,10 +27,10 @@ public class ReportController {
         this.reportRepository = reportRepository;
     }
 
-    @PostMapping("/saveReport")
-    public ResponseEntity<DatabaseSaveResponse> save(@RequestBody Report report) {
+    @PostMapping("/save")
+    public ResponseEntity<DatabaseSaveResponse> save(@RequestBody Report reportRequest) {
         try {
-            Report saved = reportRepository.save(report);
+            Report saved = reportRepository.save(reportRequest);
             logger.info("Saved Report (id = " + saved.getId() + ")");
             return ResponseEntity.ok(
                     new DatabaseSaveResponse(true, "Report saved."));

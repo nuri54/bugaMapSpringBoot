@@ -44,6 +44,18 @@ public class AdminAdminController {
     return ResponseEntity.notFound().build();
   }
 
+  @GetMapping("/email")
+  public ResponseEntity<FirstnameResponse> getEmail(
+          @RequestHeader("Authorization") String authorizationHeader) {
+    String email = jwtService.extractUsername(authorizationHeader);
+    Optional<Admin> adminFound = adminRepository.findByEmailadress(email);
+    if (adminFound.isPresent()) {
+      Admin admin = adminFound.get();
+      return ResponseEntity.ok(new FirstnameResponse(admin.getEmailadress()));
+    }
+    return ResponseEntity.notFound().build();
+  }
+
   /**
    * Standard request to get all admins. Notice: Passwords get blacken.
    *

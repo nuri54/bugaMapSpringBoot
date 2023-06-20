@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController()
 @RequestMapping("/api/v1/management/report")
@@ -19,75 +20,141 @@ public class AdminReportController {
   private static final Logger logger = LogManager.getLogger(
       AdminPersondensityReportController.class);
 
-  private final ReportRepository reportRepository;
+    private final ReportRepository reportRepository;
+    private final AdminRepository adminRepository;
 
-  public AdminReportController(
-      ReportRepository reportRepository) {
-    this.reportRepository = reportRepository;
-  }
+    public AdminReportController(
+            ReportRepository reportRepository, AdminRepository adminRepository) {
+        this.reportRepository = reportRepository;
+        this.adminRepository = adminRepository;
+    }
 
-  @GetMapping("/list")
-  public List<Report> findAll() {
-    return reportRepository.findAll();
-  }
+    @GetMapping("/list")
+    public List<Report> findAll() {
+        return reportRepository.findAll();
+    }
 
   @GetMapping("/adminList")
   public List<Report> findAllByAdmin(@RequestParam(name = "email") String email) {
     return reportRepository.findByAdminEmail(email);
   }
 
-  @GetMapping("/orphanList")
-  public List<Report> findAllByAdminNull() {
-    return reportRepository.findAllByAdminEmailNull();
-  }
-
-
-  @PostMapping("/saveReport")
-  public ResponseEntity<DatabaseSaveResponse> save(@RequestBody Report report) {
-    try {
-      Report saved = reportRepository.save(report);
-      logger.info("Saved Report (id = " + saved.getId() + ")");
-      return ResponseEntity.ok(
-          new DatabaseSaveResponse(true, "Report saved."));
-    } catch (Exception e) {
-      logger.info(e.getMessage());
-      logger.info("Failed to save Report.");
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-          new DatabaseSaveResponse(false, "Report not saved."));
+    @GetMapping("/orphanList")
+    public List<Report> findAllByAdminNull() {
+        return reportRepository.findAllByAdminEmailNull();
     }
-  }
 
-  @PostMapping("/closeReport")
-  public ResponseEntity<DatabaseSaveResponse> check(@RequestBody Report report) {
 
-    try {
-      report.setIsClosed(true);
-      Report closed = reportRepository.save(report);
-      logger.info("Closed Report (id = " + closed.getId() + ")");
-      return ResponseEntity.ok(
-          new DatabaseSaveResponse(true, "Report closed."));
-    } catch (Exception e) {
-      logger.info(e.getMessage());
-      logger.info("Failed to close Report.");
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-          new DatabaseSaveResponse(false, "Report not closed."));
+    @PostMapping("/save")
+    public ResponseEntity<DatabaseSaveResponse> save(@RequestBody Report report) {
+        try {
+            Report saved = reportRepository.save(report);
+            logger.info("Saved Report (id = " + saved.getId() + ")");
+            return ResponseEntity.ok(
+                    new DatabaseSaveResponse(true, "Report saved."));
+        } catch (Exception e) {
+            logger.info(e.getMessage());
+            logger.info("Failed to save Report.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    new DatabaseSaveResponse(false, "Report not saved."));
+        }
     }
-  }
 
-  @PostMapping("/openReport")
-  public ResponseEntity<DatabaseSaveResponse> uncheck(@RequestBody Report report) {
+    @PostMapping("/closeReport")
+    public ResponseEntity<DatabaseSaveResponse> check(@RequestParam Integer ID) {
 
-    try {
-      report.setIsClosed(false);
-      Report closed = reportRepository.save(report);
-      logger.info("Opened Report (id = " + closed.getId() + ")");
-      return ResponseEntity.ok(
-          new DatabaseSaveResponse(true, "Report opened."));
-    } catch (Exception e) {
-      logger.info(e.getMessage());
-      logger.info("Failed to open Report.");
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-          new DatabaseSaveResponse(false, "Report not opened."));
+        try {
+            Optional<Report> optionalReport = reportRepository.findById(ID);
+            if (optionalReport.isPresent()) {
+                Report reportClosed = optionalReport.get();
+                reportClosed.setIsClosed(true);
+                Report closed = reportRepository.save(reportClosed);
+                logger.info("Closed Report (id = " + closed.getId() + ")");
+                return ResponseEntity.ok(
+                        new DatabaseSaveResponse(true, "Report closed."));
+            } else {
+                logger.info("Report not found.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        new DatabaseSaveResponse(false, "Report not found."));
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.info("Failed to close Report.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    new DatabaseSaveResponse(false, "Report not closed."));
+        }
     }
-  }
+
+    @PostMapping("/openReport")
+    public ResponseEntity<DatabaseSaveResponse> uncheck(@RequestParam Integer ID) {
+        try {
+            Optional<Report> optionalReport = reportRepository.findById(ID);
+            if (optionalReport.isPresent()) {
+                Report reportNotClosed = optionalReport.get();
+                reportNotClosed.setIsClosed(false);
+                Report opened = reportRepository.save(reportNotClosed);
+                logger.info("Opened Report (id = " + opened.getId() + ")");
+                return ResponseEntity.ok(
+                        new DatabaseSaveResponse(true, "Report opened."));
+            } else {
+                logger.info("Report not found.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        new DatabaseSaveResponse(false, "Report not found."));
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.info("Failed to open Report.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    new DatabaseSaveResponse(false, "Report not opened."));
+        }
+    }
+
+    @PostMapping("/claim")
+    public ResponseEntity<DatabaseSaveResponse> claim(@RequestParam Integer ID, @RequestParam String email) {
+        try {
+            Optional<Report> optionalReport = reportRepository.findById(ID);
+            if (optionalReport.isPresent()) {
+                Report report = optionalReport.get();
+                report.setAdminEmail(email);
+                Report opened = reportRepository.save(report);
+                logger.info("Opened Report (id = " + opened.getId() + ")");
+                return ResponseEntity.ok(
+                        new DatabaseSaveResponse(true, "Report opened."));
+            } else {
+                logger.info("Report not found.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        new DatabaseSaveResponse(false, "Report not found."));
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.info("Failed to open Report.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    new DatabaseSaveResponse(false, "Report not opened."));
+        }
+    }
+
+    @PostMapping("/unclaim")
+    public ResponseEntity<DatabaseSaveResponse> claim(@RequestParam Integer ID) {
+        try {
+            Optional<Report> optionalReport = reportRepository.findById(ID);
+            if (optionalReport.isPresent()) {
+                Report report = optionalReport.get();
+                report.setAdminEmail(null);
+                Report opened = reportRepository.save(report);
+                logger.info("Opened Report (id = " + opened.getId() + ")");
+                return ResponseEntity.ok(
+                        new DatabaseSaveResponse(true, "Report opened."));
+            } else {
+                logger.info("Report not found.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        new DatabaseSaveResponse(false, "Report not found."));
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.info("Failed to open Report.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    new DatabaseSaveResponse(false, "Report not opened."));
+        }
+    }
+
 }
