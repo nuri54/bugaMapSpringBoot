@@ -12,8 +12,12 @@ import java.util.List;
  */
 @Repository
 public interface ReportRepository extends CrudRepository<Report, Integer> {
-    List<Report> findAll();
-    List<Report> findAllByAdminEmail(int adminEmail);
 
-    List<Report> findAllByAdminEmailNull();
+  List<Report> findByAdminEmail(String adminEmail);
+
+  List<Report> findAll();
+
+  List<Report> findAllByAdminEmail(int adminEmail);
+
+  List<Report> findAllByAdminEmailNull();
 }

@@ -37,7 +37,8 @@ public class AdminApproveController {
       return ResponseEntity.ok(new DatabaseSaveResponse(true, "Manager wurde approved"));
     } else {
       logger.info("Update Role for user failed because user not found: " + userEmail.getEmail());
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DatabaseSaveResponse(false, "Manager wurde nicht approved"));
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+          .body(new DatabaseSaveResponse(false, "Manager wurde nicht approved"));
     }
   }
 
