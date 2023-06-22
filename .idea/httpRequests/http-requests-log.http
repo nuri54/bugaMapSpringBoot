@@ -1,3 +1,12 @@
+GET http://localhost:8080/api/v1/open/bugapoint/list
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-06-22T205844.200.json
+
+###
+
 GET http://localhost:8080/api/v1/open/list
 Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
@@ -445,14 +454,6 @@ User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
 <> 2023-04-16T180714.200.json
-
-###
-
-POST http://localhost:8080/addBugapoint?title=Test&latitude=0.0&longitude=0.0&type=Schach
-Content-Length: 0
-Connection: Keep-Alive
-User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.6)
-Accept-Encoding: br,deflate,gzip,x-gzip
 
 ###
 
