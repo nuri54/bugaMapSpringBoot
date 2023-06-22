@@ -1,9 +1,11 @@
 package de.hhn.se.labswp.bugamap.controller.managementauthority;
 
 
+import de.hhn.se.labswp.bugamap.controller.adminauthority.requestbodies.PersonDensityReportRequest;
 import de.hhn.se.labswp.bugamap.crudrepos.PersondensityReportRepository;
 import de.hhn.se.labswp.bugamap.jpa.Persondensityreport;
 import de.hhn.se.labswp.bugamap.responses.DatabaseSaveResponse;
+import java.time.Instant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -35,16 +37,28 @@ public class AdminPersondensityReportController {
   /**
    * Save mapping for a new report.
    *
-   * @param persondensityreport report
+   * @param personDensityReportRequest report
    * @return response
    */
   @PostMapping("/save")
-  public ResponseEntity<DatabaseSaveResponse> save(@RequestBody Persondensityreport
-      persondensityreport) {
+  public ResponseEntity<DatabaseSaveResponse> save(@RequestBody PersonDensityReportRequest
+      personDensityReportRequest) {
 
     try {
+
+      Persondensityreport persondensityreport = new Persondensityreport();
+
+      persondensityreport.setLatitude(personDensityReportRequest.getLatitude());
+      persondensityreport.setLongitude(personDensityReportRequest.getLongitude());
+      persondensityreport.setDensity(personDensityReportRequest.getDensity());
+      persondensityreport.setValidtill(Instant.now().plusSeconds(
+          personDensityReportRequest.getDuration()));
+
+      logger.info(Instant.now());
+
       Persondensityreport saved = persondensityReportRepository.save(persondensityreport);
       logger.info("New persondensityreport saved (id = " + saved.getId() + ")");
+
       return ResponseEntity.ok(
           new DatabaseSaveResponse(true, "Persondensityreport saved."));
     } catch (Exception e) {
