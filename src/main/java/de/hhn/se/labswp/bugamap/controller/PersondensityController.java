@@ -3,6 +3,7 @@ package de.hhn.se.labswp.bugamap.controller;
 
 import de.hhn.se.labswp.bugamap.crudrepos.PersondensityReportRepository;
 import de.hhn.se.labswp.bugamap.jpa.Persondensityreport;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,6 +27,6 @@ public class PersondensityController {
   @GetMapping("/list")
   public List<Persondensityreport> getPersondensityreports(@RequestParam(required = false) Map<String, String> query) {
 
-    return (List<Persondensityreport>) persondensityReportRepository.findAll();
+    return persondensityReportRepository.findByValidtillGreaterThan(Instant.now());
   }
 }
