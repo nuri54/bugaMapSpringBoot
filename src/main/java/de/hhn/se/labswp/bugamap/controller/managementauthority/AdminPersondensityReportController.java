@@ -1,7 +1,7 @@
 package de.hhn.se.labswp.bugamap.controller.managementauthority;
 
 
-import de.hhn.se.labswp.bugamap.controller.adminauthority.requestbodies.PersonDensityReportRequest;
+import de.hhn.se.labswp.bugamap.controller.managementauthority.requestbodies.PersonDensityReportRequest;
 import de.hhn.se.labswp.bugamap.crudrepos.PersondensityReportRepository;
 import de.hhn.se.labswp.bugamap.jpa.Persondensityreport;
 import de.hhn.se.labswp.bugamap.responses.DatabaseSaveResponse;

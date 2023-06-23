@@ -1,4 +1,4 @@
-package de.hhn.se.labswp.bugamap.controller.adminauthority.requestbodies;
+package de.hhn.se.labswp.bugamap.controller.managementauthority.requestbodies;
 
 
 import lombok.AllArgsConstructor;
@@ -12,9 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PersonDensityReportRequest {
 
-  private Double latitude;
-
-  private Double longitude;
+  private Integer bugapointid;
 
   private Integer density;
 
