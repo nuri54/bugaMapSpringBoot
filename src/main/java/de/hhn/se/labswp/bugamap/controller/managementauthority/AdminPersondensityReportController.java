@@ -48,13 +48,10 @@ public class AdminPersondensityReportController {
 
       Persondensityreport persondensityreport = new Persondensityreport();
 
-      //persondensityreport.setLatitude(personDensityReportRequest.getLatitude());
-      //persondensityreport.setLongitude(personDensityReportRequest.getLongitude());
+      persondensityreport.setBugaPointID(personDensityReportRequest.getBugapointid());
       persondensityreport.setDensity(personDensityReportRequest.getDensity());
       persondensityreport.setValidtill(Instant.now().plusSeconds(
           personDensityReportRequest.getDuration()));
-
-      logger.info(Instant.now());
 
       Persondensityreport saved = persondensityReportRepository.save(persondensityreport);
       logger.info("New persondensityreport saved (id = " + saved.getId() + ")");
