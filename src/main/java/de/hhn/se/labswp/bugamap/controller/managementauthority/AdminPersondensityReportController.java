@@ -48,7 +48,7 @@ public class AdminPersondensityReportController {
 
       Persondensityreport persondensityreport = new Persondensityreport();
 
-      persondensityreport.setBugaPointID(personDensityReportRequest.getBugapointid());
+      persondensityreport.setBugaPointID(personDensityReportRequest.getBugaPointID());
       persondensityreport.setDensity(personDensityReportRequest.getDensity());
       persondensityreport.setValidtill(Instant.now().plusSeconds(
           personDensityReportRequest.getDuration()));

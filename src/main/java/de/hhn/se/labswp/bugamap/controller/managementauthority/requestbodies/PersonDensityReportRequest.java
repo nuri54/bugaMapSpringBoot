@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PersonDensityReportRequest {
 
-  private Integer bugapointid;
+  private Integer bugaPointID;
 
   private Integer density;
 
