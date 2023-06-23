@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import java.time.Instant;
 import lombok.Getter;
@@ -21,16 +22,16 @@ public class Persondensityreport {
   @Column(name = "ID", nullable = false)
   private Integer id;
 
-  @Column(name = "Latitude", nullable = false)
-  private Double latitude;
-
-  @Column(name = "Longitude", nullable = false)
-  private Double longitude;
-
   @Column(name = "Validtill", nullable = false)
   private Instant validtill;
 
   @Column(name = "Density", nullable = false)
   private Integer density;
+
+  /**
+   * The ID of the BugaPoint the report belongs to.
+   */
+  @Column(name = "Bugapointid")
+  private int bugaPointID;
 
 }

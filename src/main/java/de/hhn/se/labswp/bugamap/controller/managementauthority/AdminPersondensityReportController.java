@@ -48,8 +48,8 @@ public class AdminPersondensityReportController {
 
       Persondensityreport persondensityreport = new Persondensityreport();
 
-      persondensityreport.setLatitude(personDensityReportRequest.getLatitude());
-      persondensityreport.setLongitude(personDensityReportRequest.getLongitude());
+      //persondensityreport.setLatitude(personDensityReportRequest.getLatitude());
+      //persondensityreport.setLongitude(personDensityReportRequest.getLongitude());
       persondensityreport.setDensity(personDensityReportRequest.getDensity());
       persondensityreport.setValidtill(Instant.now().plusSeconds(
           personDensityReportRequest.getDuration()));

@@ -21,7 +21,7 @@ public class Report {
   @Column(name = "ID")
   private Integer id;
 
-  /**F
+  /**
    * The ID of the BugaPoint the report belongs to.
    */
   @JoinColumn(name = "BugaPointID")
