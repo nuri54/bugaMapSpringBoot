@@ -46,6 +46,13 @@ public class AdminPersondensityReportController {
 
     try {
 
+      try {
+        persondensityReportRepository.deleteAllWithBugapointID(personDensityReportRequest.getBugaPointID());
+      } catch (Exception e) {
+        logger.info("No duplicate for a pdr found for bugapoint " + personDensityReportRequest.getBugaPointID() + ".");
+      }
+
+
       Persondensityreport persondensityreport = new Persondensityreport();
 
       persondensityreport.setBugaPointID(personDensityReportRequest.getBugaPointID());
