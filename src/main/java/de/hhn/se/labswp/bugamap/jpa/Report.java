@@ -24,19 +24,19 @@ public class Report {
   /**
    * The ID of the BugaPoint the report belongs to.
    */
-  @JoinColumn(name = "BugaPointID")
+  @Column(name = "Bugapointid")
   private int bugaPointID;
 
   /**
    * The ID of the Park the report belongs to.
    */
-  @JoinColumn(name = "ParkID")
+  @Column(name = "Parkid")
   private int parkID;
 
   /**
    * The Email of the Admin user who works on the report.
    */
-  @JoinColumn(name = "Adminemail")
+  @Column(name = "Adminemail")
   private String adminEmail;
 
   /**
@@ -54,6 +54,6 @@ public class Report {
   /**
    * The isClosed Boolean of the report, which indicates if a report is closed.
    */
-  @Column(name = "isClosed", nullable = false)
+  @Column(name = "isclosed", nullable = false)
   private Boolean isClosed;
 }
