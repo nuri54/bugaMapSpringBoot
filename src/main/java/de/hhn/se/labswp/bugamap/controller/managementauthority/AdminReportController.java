@@ -21,12 +21,10 @@ public class AdminReportController {
       AdminPersondensityReportController.class);
 
   private final ReportRepository reportRepository;
-  private final AdminRepository adminRepository;
 
   public AdminReportController(
-      ReportRepository reportRepository, AdminRepository adminRepository) {
+      ReportRepository reportRepository) {
     this.reportRepository = reportRepository;
-    this.adminRepository = adminRepository;
   }
 
   /**
@@ -45,9 +43,8 @@ public class AdminReportController {
    */
   @GetMapping("/id")
   public Report findById(@RequestParam(name = "id") Integer id) {
-    Report r =  reportRepository.findById(id).get();
 
-    return r;
+    return reportRepository.findById(id).get();
   }
 
   /**
@@ -61,10 +58,9 @@ public class AdminReportController {
   }
 
   /**
-   * DELETE? -MAX
+   * Save method
    *
-   * @param report
-   * @return
+   * @param report response
    */
   @PostMapping("/save")
   public ResponseEntity<DatabaseSaveResponse> save(@RequestBody Report report) {
@@ -119,7 +115,7 @@ public class AdminReportController {
    * @return response entity
    */
   @PostMapping("/openReport")
-  public ResponseEntity<DatabaseSaveResponse> openReport(@RequestParam Integer ID) {
+  public ResponseEntity<DatabaseSaveResponse> openReport(@RequestParam(value = "id") Integer ID) {
     try {
       Optional<Report> optionalReport = reportRepository.findById(ID);
       if (optionalReport.isPresent()) {
@@ -150,15 +146,15 @@ public class AdminReportController {
    * @return response
    */
   @PostMapping("/claim")
-  public ResponseEntity<DatabaseSaveResponse> claim(@RequestParam Integer ID,
-      @RequestParam String email) {
+  public ResponseEntity<DatabaseSaveResponse> claim(@RequestParam(value = "id") Integer ID,
+      @RequestParam(value = "email") String email) {
     try {
       Optional<Report> optionalReport = reportRepository.findById(ID);
       if (optionalReport.isPresent()) {
         Report report = optionalReport.get();
         report.setAdminEmail(email);
         Report opened = reportRepository.save(report);
-        logger.info("Opened Report (id = " + opened.getId() + ")");
+        logger.info("Changed Report Admin (id = " + opened.getAdminEmail() + ")");
         return ResponseEntity.ok(
             new DatabaseSaveResponse(true, "Report opened."));
       } else {
