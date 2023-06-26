@@ -38,14 +38,16 @@ public class AdminReportController {
   }
 
   /**
-   * DELETE THIS LATER -MAX
+   * Get report by id
    *
-   * @param email
-   * @return
+   * @param id of the report
+   * @return report if exist
    */
-  @GetMapping("/adminList")
-  public List<Report> findAllByAdmin(@RequestParam(name = "email") String email) {
-    return reportRepository.findByAdminEmail(email);
+  @GetMapping("/id")
+  public Report findById(@RequestParam(name = "id") Integer id) {
+    Report r =  reportRepository.findById(id).get();
+
+    return r;
   }
 
   /**
