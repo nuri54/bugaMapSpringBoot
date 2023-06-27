@@ -28,12 +28,6 @@ public class Report {
   private int bugaPointID;
 
   /**
-   * The ID of the Park the report belongs to.
-   */
-  @Column(name = "Parkid")
-  private int parkID;
-
-  /**
    * The Email of the Admin user who works on the report.
    */
   @Column(name = "Adminemail")

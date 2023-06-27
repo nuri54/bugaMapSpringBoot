@@ -1,7 +1,10 @@
 package de.hhn.se.labswp.bugamap.controller.managementauthority;
 
 import de.hhn.se.labswp.bugamap.crudrepos.AdminRepository;
+import de.hhn.se.labswp.bugamap.crudrepos.BugapointRepository;
 import de.hhn.se.labswp.bugamap.crudrepos.ReportRepository;
+import de.hhn.se.labswp.bugamap.jpa.Admin;
+import de.hhn.se.labswp.bugamap.jpa.Bugapoint;
 import de.hhn.se.labswp.bugamap.jpa.Report;
 import de.hhn.se.labswp.bugamap.responses.DatabaseSaveResponse;
 import org.apache.logging.log4j.LogManager;
@@ -22,9 +25,15 @@ public class AdminReportController {
 
   private final ReportRepository reportRepository;
 
-  public AdminReportController(
-      ReportRepository reportRepository) {
+  private final AdminRepository adminRepository;
+
+  private final BugapointRepository bugapointRepository;
+
+  public AdminReportController(ReportRepository reportRepository, AdminRepository adminRepository,
+      BugapointRepository bugapointRepository) {
     this.reportRepository = reportRepository;
+    this.adminRepository = adminRepository;
+    this.bugapointRepository = bugapointRepository;
   }
 
   /**
@@ -64,11 +73,20 @@ public class AdminReportController {
    */
   @PostMapping("/save")
   public ResponseEntity<DatabaseSaveResponse> save(@RequestBody Report report) {
+
     try {
+      Optional<Bugapoint> optionalBugapoint = bugapointRepository.findById(report.getBugaPointID());
+
+      if (optionalBugapoint.isPresent()) {
+        Optional<Admin> optionalAdmin = adminRepository.findById(optionalBugapoint.get().getAdminID());
+
+        optionalAdmin.ifPresent(admin -> report.setAdminEmail(admin.getEmailadress()));
+      }
+
       Report saved = reportRepository.save(report);
       logger.info("Saved Report (id = " + saved.getId() + ")");
       return ResponseEntity.ok(
-          new DatabaseSaveResponse(true, "Report saved."));
+          new DatabaseSaveResponse(true, "Report saved. IST DAS ÜBERHAUPT HIER"));
     } catch (Exception e) {
       logger.info(e.getMessage());
       logger.info("Failed to save Report.");
